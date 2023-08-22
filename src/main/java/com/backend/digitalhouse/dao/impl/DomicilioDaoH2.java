@@ -164,4 +164,9 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
         }
         return  domicilios;
     }
+
+    @Override
+    public Domicilio modificar(Domicilio domicilio) {
+        return null;
+    }
 }

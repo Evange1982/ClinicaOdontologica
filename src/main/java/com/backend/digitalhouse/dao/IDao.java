@@ -9,4 +9,6 @@ public interface IDao<T>{
     void eliminar(int id);
     List<T> listarTodos();
 
+    T modificar(T t);
+
 }

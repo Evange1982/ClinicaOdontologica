@@ -1,11 +1,12 @@
-package com.backend.digitalhouse.service;
+package com.backend.digitalhouse.service.impl;
 
 import com.backend.digitalhouse.dao.IDao;
 import com.backend.digitalhouse.entity.Paciente;
+import com.backend.digitalhouse.service.IPacienteService;
 
 import java.util.List;
 
-public class PacienteService {
+public class PacienteService implements IPacienteService {
     private IDao<Paciente> pacienteIDao;
 
     public PacienteService(IDao<Paciente> pacienteIDao) {
@@ -26,5 +27,10 @@ public class PacienteService {
 
     public void eliminarPaciente(int id){
         pacienteIDao.eliminar(id);
+    }
+
+    @Override
+    public Paciente modificarPaciente(Paciente pacienteModificado) {
+        return pacienteIDao.modificar(pacienteModificado);
     }
 }

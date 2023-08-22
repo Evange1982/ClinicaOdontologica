@@ -174,6 +174,42 @@ public class PacienteDaoH2 implements IDao<Paciente> {
         return pacientes;
     }
 
+    @Override
+    public Paciente modificar(Paciente pacienteModificado) {
+
+        Connection connection = null;
+        try {
+            connection = H2Connection.getConnection();
+
+            PreparedStatement ps = connection.prepareStatement("UPDATE PACIENTES SET NOMBRE = ?, APELLIDO = ?, DNI = ?, FECHA = ?, DOMICILIO_ID = ? WHERE ID = ?");
+            ps.setString(1,pacienteModificado.getNombre());
+            ps.setString(2, pacienteModificado.getApellido());
+            ps.setInt(3, pacienteModificado.getDni());
+            ps.setDate(4, Date.valueOf(pacienteModificado.getFechaIngreso()));
+            ps.setInt(5, pacienteModificado.getDomicilio().getId());
+            ps.setInt(6, pacienteModificado.getId());
+            ps.execute();
+
+            LOGGER.warn("El paciente con id " + pacienteModificado.getId() + "ha sido modificado: " + pacienteModificado);
+
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (Exception ex){
+                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+        return pacienteModificado;
+    }
+
+
     private Paciente crearObjetoPaciente(ResultSet resultSet) throws SQLException {
         int idPaciente = resultSet.getInt("id");
         String nombrePaciente = resultSet.getString("nombre");

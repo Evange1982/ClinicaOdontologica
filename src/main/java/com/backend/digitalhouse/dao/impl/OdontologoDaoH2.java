@@ -93,6 +93,11 @@ public class OdontologoDaoH2 implements IDao<Odontologo> {
     }
 
     @Override
+    public Odontologo modificar(Odontologo odontologo) {
+        return null;
+    }
+
+    @Override
     public void eliminar(int id) {
         Connection connection = null;
         try {

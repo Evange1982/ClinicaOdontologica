@@ -1,20 +1,23 @@
-package com.backend.digitalhouse.dao.impl;
+package com.backend.digitalhouse.ClinicaOdontologica.dao.impl;
 
-import com.backend.digitalhouse.dao.H2Connection;
-import com.backend.digitalhouse.dao.IDao;
-import com.backend.digitalhouse.entity.Domicilio;
-import com.backend.digitalhouse.entity.Paciente;
-import org.apache.log4j.Logger;
+import com.backend.digitalhouse.ClinicaOdontologica.dao.H2Connection;
+import com.backend.digitalhouse.ClinicaOdontologica.dao.IDao;
+import com.backend.digitalhouse.ClinicaOdontologica.entity.Domicilio;
+import com.backend.digitalhouse.ClinicaOdontologica.entity.Paciente;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class PacienteDaoH2 implements IDao<Paciente> {
 
-    private final Logger LOGGER = Logger.getLogger(PacienteDaoH2.class);
-
+    private final Logger LOGGER = LoggerFactory.getLogger(PacienteDaoH2.class);
+    private final String CTE_ERROR = "Ha ocurrido un error al intentar cerrar la bdd. {}";
     @Override
     public Paciente registrar(Paciente paciente) {
         Connection connection = null;
@@ -31,20 +34,24 @@ public class PacienteDaoH2 implements IDao<Paciente> {
             ps.setString(2, paciente.getApellido());
             ps.setInt(3, paciente.getDni());
             ps.setDate(4, Date.valueOf(paciente.getFechaIngreso()));
-            ps.setInt(5, paciente.getDomicilio().getId());
+            ps.setInt(5, domicilio.getId());
             ps.execute();
 
             paciente1 = new Paciente(paciente.getNombre(), paciente.getApellido(), paciente.getDni(), paciente.getFechaIngreso(), domicilio);
 
             ResultSet rs = ps.getGeneratedKeys();
             while (rs.next()){
-                paciente.setId(rs.getInt(1));
+                paciente1.setId(rs.getInt(1));
             }
 
             connection.commit();
-            if (paciente1 == null) LOGGER.error("No fue posible registrar al paciente");
-            else LOGGER.info("Se ha registrado el paciente: " + paciente1);
 
+            if ((paciente1 == null)) {
+                LOGGER.error("No fue posible registrar al paciente");
+                connection.rollback();
+            } else {
+                LOGGER.info("Se ha registrado el paciente: {}", paciente1);
+            }
 
         } catch (Exception e){
             LOGGER.error(e.getMessage());
@@ -63,7 +70,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
             try {
                 connection.close();
             } catch (Exception e){
-                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + e.getMessage());
+                LOGGER.error(CTE_ERROR, e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -78,15 +85,16 @@ public class PacienteDaoH2 implements IDao<Paciente> {
 
         try{
             connection = H2Connection.getConnection();
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM PACIENTES WHERE ID = ?", id);
-            //ps.setInt(1, id);
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM PACIENTES WHERE ID = ?");
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
+
             while (rs.next()){
                 paciente = crearObjetoPaciente(rs);
             }
 
-            if(paciente == null) LOGGER.error("No se ha encontrado el paciente con id: " + id);
-            else LOGGER.info("Se ha encontrado el paciente: " + paciente);
+            if(paciente == null) LOGGER.error("No se ha encontrado el paciente con id: {}", id);
+            else LOGGER.info("Se ha encontrado el paciente: {}", paciente);
 
 
 
@@ -97,7 +105,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
             try {
                 connection.close();
             } catch (Exception ex){
-                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + ex.getMessage());
+                LOGGER.error(CTE_ERROR, ex.getMessage());
                 ex.printStackTrace();
             }
         }
@@ -117,7 +125,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
             ps.setInt(1, id);
             ps.execute();
             connection.commit();
-            LOGGER.info("Se ha eliminado el paciente con id: " + id);
+            LOGGER.info("Se ha eliminado el paciente con id: {}", id);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -136,7 +144,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
             try {
                 connection.close();
             } catch (Exception ex) {
-                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + ex.getMessage());
+                LOGGER.error(CTE_ERROR, ex.getMessage());
                 ex.printStackTrace();
             }
         }
@@ -157,7 +165,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
                 pacientes.add(paciente);
             }
 
-            LOGGER.info("Listado de todos los pacientes: " + pacientes);
+            LOGGER.info("Listado de todos los pacientes: {}", pacientes);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -167,7 +175,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
             try {
                 connection.close();
             } catch (Exception ex) {
-                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + ex.getMessage());
+                LOGGER.error(CTE_ERROR, ex.getMessage());
                 ex.printStackTrace();
             }
         }
@@ -208,7 +216,6 @@ public class PacienteDaoH2 implements IDao<Paciente> {
         }
         return pacienteModificado;
     }
-
 
     private Paciente crearObjetoPaciente(ResultSet resultSet) throws SQLException {
         int idPaciente = resultSet.getInt("id");

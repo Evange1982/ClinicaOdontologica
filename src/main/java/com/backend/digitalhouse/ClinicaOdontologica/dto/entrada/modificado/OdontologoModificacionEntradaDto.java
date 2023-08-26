@@ -1,19 +1,28 @@
-package com.backend.digitalhouse.entity;
+package com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.modificado;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class Odontologo {
+import javax.validation.constraints.NotNull;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class OdontologoModificacionEntradaDto {
+    @NotNull
     private int id;
+
+    @NotNull
     private String matricula;
+
+    @NotNull
     private String nombre;
+
+    @NotNull
     private String apellido;
 
-    public Odontologo(int id, String matricula, String nombre, String apellido) {
-        this.id = id;
-        this.matricula = matricula;
-        this.nombre = nombre;
-        this.apellido = apellido;
+
+    public OdontologoModificacionEntradaDto() {
     }
 
-    public Odontologo(String matricula, String nombre, String apellido) {
+    public OdontologoModificacionEntradaDto(int id, String matricula, String nombre, String apellido) {
+        this.id = id;
         this.matricula = matricula;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -49,10 +58,5 @@ public class Odontologo {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
-    }
-
-    @Override
-    public String toString() {
-        return "Id: " + id + " - Nombre: " + nombre + " - Apellido: " + apellido + " - Matricula: " + matricula;
     }
 }

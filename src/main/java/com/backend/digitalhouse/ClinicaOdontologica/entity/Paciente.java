@@ -1,4 +1,4 @@
-package com.backend.digitalhouse.entity;
+package com.backend.digitalhouse.ClinicaOdontologica.entity;
 
 import java.time.LocalDate;
 
@@ -10,7 +10,7 @@ public class Paciente {
     private LocalDate fechaIngreso;
     private Domicilio domicilio;
 
-
+    public Paciente(){}
     public Paciente(int id, String nombre, String apellido, int dni, LocalDate fechaIngreso, Domicilio domicilio) {
         this.id = id;
         this.nombre = nombre;

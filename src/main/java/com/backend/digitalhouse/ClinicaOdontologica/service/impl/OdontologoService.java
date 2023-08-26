@@ -1,8 +1,8 @@
-package com.backend.digitalhouse.service.impl;
+package com.backend.digitalhouse.ClinicaOdontologica.service.impl;
 
-import com.backend.digitalhouse.dao.IDao;
-import com.backend.digitalhouse.entity.Odontologo;
-import com.backend.digitalhouse.service.IOdontologoService;
+import com.backend.digitalhouse.ClinicaOdontologica.dao.IDao;
+import com.backend.digitalhouse.ClinicaOdontologica.entity.Odontologo;
+import com.backend.digitalhouse.ClinicaOdontologica.service.IOdontologoService;
 
 import java.util.List;
 

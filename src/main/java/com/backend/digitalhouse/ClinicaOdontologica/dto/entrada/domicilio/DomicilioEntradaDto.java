@@ -1,26 +1,32 @@
-package com.backend.digitalhouse.dto.entrada.domicilio;
+package com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.domicilio;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.stereotype.Component;
+
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DomicilioEntradaDto {
 
-    //@NotNull(message = "La calle no puede ser nula")
-    //@NotBlanck(message = "Debe especificarse el nombre de la calle")
+    @NotNull(message = "La calle no puede ser nula")
+    @NotBlank(message = "Debe especificarse el nombre de la calle")
     private String calle;
 
-    //@NotNull(message = "El numero no se puede ser nulo")
-    //@NotBlanck(message = "Debe especificarse el numero")
-    //@Digits(integer = 8, fraction = 0, message = "El numero debe tener como maximo 8 digitos")
-    //@Pattern(regexp = "\\d{1-8}", message = "El numero debe tener como maximo 8 digitos")
+    @NotNull(message = "El numero no puede ser nulo")
+    @NotBlank(message = "Debe especificarse el numero")
+    //@Digits(integer = 8, fraction = 0, message = "El número debe tener como máximo 8 dígitos")
+    @Pattern(regexp = "\\d{1,8}", message = "El número debe tener como máximo 8 dígitos")
     private int numero;
 
-    //@NotNull(message = "La localida no puede ser nula")
-    //@NotBlanck(message = "Debe especificarse el nombre de la localidad")
+    @NotNull(message = "La localidad no puede ser nula")
+    @NotBlank(message = "Debe especificarse la localidad")
     private String localidad;
 
-    //@NotNull(message = "La provincia no puede ser nula")
-    //@NotBlanck(message = "Debe especificarse el nombre de la provincia")
+    @NotNull(message = "La provincia no puede ser nula")
+    @NotBlank(message = "Debe especificarse el nombre de la provincia")
     private String provincia;
 
     public DomicilioEntradaDto(){

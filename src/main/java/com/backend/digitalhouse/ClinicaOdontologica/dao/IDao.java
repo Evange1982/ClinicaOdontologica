@@ -1,4 +1,4 @@
-package com.backend.digitalhouse.dao;
+package com.backend.digitalhouse.ClinicaOdontologica.dao;
 
 import java.util.List;
 

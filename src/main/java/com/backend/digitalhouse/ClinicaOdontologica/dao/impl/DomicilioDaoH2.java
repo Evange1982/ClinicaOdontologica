@@ -1,18 +1,21 @@
-package com.backend.digitalhouse.dao.impl;
+package com.backend.digitalhouse.ClinicaOdontologica.dao.impl;
 
-import com.backend.digitalhouse.dao.H2Connection;
-import com.backend.digitalhouse.dao.IDao;
-import com.backend.digitalhouse.entity.Domicilio;
-import org.apache.log4j.Logger;
+import com.backend.digitalhouse.ClinicaOdontologica.dao.H2Connection;
+import com.backend.digitalhouse.ClinicaOdontologica.dao.IDao;
+import com.backend.digitalhouse.ClinicaOdontologica.entity.Domicilio;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class DomicilioDaoH2 implements IDao<Domicilio> {
 
-    private final Logger LOGGER = Logger.getLogger(DomicilioDaoH2.class);
-
+    private final Logger LOGGER = LoggerFactory.getLogger(DomicilioDaoH2.class);
+    private final String CTE_ERROR = "Ha ocurrido un error al intentar cerrar la bdd. {}";
 
     @Override
     public Domicilio registrar(Domicilio domicilio) {
@@ -31,12 +34,12 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
 
             ResultSet rs = ps.getGeneratedKeys();
             domicilio1 = new Domicilio(domicilio.getCalle(), domicilio.getNumero(), domicilio.getLocalidad(), domicilio.getProvincia());
-            while (rs.next()){
+            while (rs.next()) {
                 domicilio1.setId(rs.getInt("id"));
             }
 
             connection.commit();
-            LOGGER.info("Se ha registrado el domicilio: " + domicilio1);
+            LOGGER.info("Se ha registrado el domicilio: {}", domicilio1);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -55,7 +58,7 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
             try {
                 connection.close();
             } catch (Exception ex) {
-                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + ex.getMessage());
+                LOGGER.error(CTE_ERROR, ex.getMessage());
                 ex.printStackTrace();
             }
 
@@ -80,8 +83,8 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
                 domicilio = new Domicilio(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5));
             }
 
-            if(domicilio == null) LOGGER.error("No se ha encontrado el domicilio con id: " + id);
-            else LOGGER.info("Se ha encontrado el domicilio: " + domicilio);
+            if (domicilio == null) LOGGER.error("No se ha encontrado el domicilio con id: {}", id);
+            else LOGGER.info("Se ha encontrado el domicilio: {}", domicilio);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -90,7 +93,7 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
             try {
                 connection.close();
             } catch (Exception ex) {
-                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + ex.getMessage());
+                LOGGER.error(CTE_ERROR, ex.getMessage());
                 ex.printStackTrace();
             }
         }
@@ -100,14 +103,14 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
     @Override
     public void eliminar(int id) {
         Connection connection = null;
-        try{
+        try {
             connection = H2Connection.getConnection();
             connection.setAutoCommit(false);
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM DOMICILIOS WHERE ID = ?", id);
-            //ps.setInt(1, id);
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM DOMICILIOS WHERE ID = ?");
+            ps.setInt(1, id);
             ps.execute();
             connection.commit();
-            LOGGER.warn("Se ha eliminado el domicilio con id: " + id);
+            LOGGER.warn("Se ha eliminado el domicilio con id: {}", id);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -126,7 +129,7 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
             try {
                 connection.close();
             } catch (Exception ex) {
-                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + ex.getMessage());
+                LOGGER.error(CTE_ERROR, ex.getMessage());
                 ex.printStackTrace();
             }
         }
@@ -139,11 +142,11 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
         Connection connection = null;
         List<Domicilio> domicilios = new ArrayList<>();
 
-        try{
+        try {
             connection = H2Connection.getConnection();
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM DOMICILIOS");
             ResultSet rs = ps.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 Domicilio domicilio = new Domicilio(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5));
                 domicilios.add(domicilio);
             }
@@ -158,11 +161,11 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
             try {
                 connection.close();
             } catch (Exception ex) {
-                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + ex.getMessage());
+                LOGGER.error(CTE_ERROR, ex.getMessage());
                 ex.printStackTrace();
             }
         }
-        return  domicilios;
+        return domicilios;
     }
 
     @Override

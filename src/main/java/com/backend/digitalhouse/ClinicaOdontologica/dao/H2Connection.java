@@ -1,4 +1,4 @@
-package com.backend.digitalhouse.dao;
+package com.backend.digitalhouse.ClinicaOdontologica.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,11 +7,11 @@ import java.sql.SQLException;
 public class H2Connection {
     public static Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("org.h2.Driver");
-        return DriverManager.getConnection("jdbc:h2:~/c4clase11", "sa", "sa");
+        return DriverManager.getConnection("jdbc:h2:~/integrador", "sa", "sa");
     }
 
     public static Connection create() throws SQLException, ClassNotFoundException {
         Class.forName("org.h2.Driver");
-        return DriverManager.getConnection("jdbc:h2:~/c4integrador;INIT=RUNSCRIPT FROM 'create.sql'", "sa", "sa");
+        return DriverManager.getConnection("jdbc:h2:~/integrador;INIT=RUNSCRIPT FROM 'create.sql'", "sa", "sa");
     }
 }

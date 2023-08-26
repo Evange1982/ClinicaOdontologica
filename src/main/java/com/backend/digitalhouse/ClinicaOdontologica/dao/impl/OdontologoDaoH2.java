@@ -1,17 +1,20 @@
-package com.backend.digitalhouse.dao.impl;
+package com.backend.digitalhouse.ClinicaOdontologica.dao.impl;
 
-import com.backend.digitalhouse.dao.H2Connection;
-import com.backend.digitalhouse.dao.IDao;
-import com.backend.digitalhouse.entity.Odontologo;
-import org.apache.log4j.Logger;
+import com.backend.digitalhouse.ClinicaOdontologica.dao.H2Connection;
+import com.backend.digitalhouse.ClinicaOdontologica.dao.IDao;
+import com.backend.digitalhouse.ClinicaOdontologica.entity.Odontologo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Component
 public class OdontologoDaoH2 implements IDao<Odontologo> {
-    private static Logger LOGGER = Logger.getLogger(OdontologoDaoH2.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(OdontologoDaoH2.class);
+    private final String CTE_ERROR = "Ha ocurrido un error al intentar cerrar la bdd. {}";
 
     @Override
     public Odontologo registrar(Odontologo odontologo) {
@@ -34,7 +37,7 @@ public class OdontologoDaoH2 implements IDao<Odontologo> {
             }
 
             connection.commit();
-            LOGGER.info("Se ha registrado el odontologo: " + odontologo1);
+            LOGGER.info("Se ha registrado el odontologo: {}", odontologo1);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -53,7 +56,7 @@ public class OdontologoDaoH2 implements IDao<Odontologo> {
             try {
                 connection.close();
             } catch (Exception e) {
-                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + e.getMessage());
+                LOGGER.error(CTE_ERROR, e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -75,7 +78,7 @@ public class OdontologoDaoH2 implements IDao<Odontologo> {
                 odontologos.add(odontologo);
             }
 
-            LOGGER.info("Listado de todos los odontologos: " + odontologos);
+            LOGGER.info("Listado de todos los odontologos: {}", odontologos);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -85,7 +88,7 @@ public class OdontologoDaoH2 implements IDao<Odontologo> {
             try {
                 connection.close();
             } catch (Exception ex) {
-                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + ex.getMessage());
+                LOGGER.error(CTE_ERROR, ex.getMessage());
                 ex.printStackTrace();
             }
         }
@@ -108,7 +111,7 @@ public class OdontologoDaoH2 implements IDao<Odontologo> {
             ps.setInt(1, id);
             ps.execute();
             connection.commit();
-            LOGGER.info("Se ha eliminado el odontologo con id: " + id);
+            LOGGER.info("Se ha eliminado el odontologo con id: {}", id);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -127,7 +130,7 @@ public class OdontologoDaoH2 implements IDao<Odontologo> {
             try {
                 connection.close();
             } catch (Exception ex) {
-                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + ex.getMessage());
+                LOGGER.error(CTE_ERROR, ex.getMessage());
                 ex.printStackTrace();
             }
         }
@@ -145,7 +148,7 @@ public class OdontologoDaoH2 implements IDao<Odontologo> {
             while (rs.next()) {
                 odontologo = crearObjetoOdontologo(rs);
             }
-            LOGGER.info("Se ha encontrado el odontologo con id " + id + ": " + odontologo);
+            LOGGER.info("Se ha encontrado el odontologo con id {}: {}", id, odontologo);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -154,7 +157,7 @@ public class OdontologoDaoH2 implements IDao<Odontologo> {
             try {
                 connection.close();
             } catch (Exception ex) {
-                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + ex.getMessage());
+                LOGGER.error(CTE_ERROR, ex.getMessage());
                 ex.printStackTrace();
             }
         }

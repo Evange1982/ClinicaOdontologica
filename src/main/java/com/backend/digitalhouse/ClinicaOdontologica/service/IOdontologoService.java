@@ -1,6 +1,6 @@
-package com.backend.digitalhouse.service;
+package com.backend.digitalhouse.ClinicaOdontologica.service;
 
-import com.backend.digitalhouse.entity.Odontologo;
+import com.backend.digitalhouse.ClinicaOdontologica.entity.Odontologo;
 
 import java.util.List;
 

@@ -21,5 +21,35 @@ public class TurnoEntradaDto {
     @NotNull(message = "Debe especificar la fecha y la hora")
     private LocalDateTime fechaYHora;
 
+    public TurnoEntradaDto(){}
 
+    public TurnoEntradaDto(int pacienteId, int odontologoId, LocalDateTime fechaYHora) {
+        this.pacienteId = pacienteId;
+        this.odontologoId = odontologoId;
+        this.fechaYHora = fechaYHora;
+    }
+
+    public int getPacienteId() {
+        return pacienteId;
+    }
+
+    public void setPacienteId(int pacienteId) {
+        this.pacienteId = pacienteId;
+    }
+
+    public int getOdontologoId() {
+        return odontologoId;
+    }
+
+    public void setOdontologoId(int odontologoId) {
+        this.odontologoId = odontologoId;
+    }
+
+    public LocalDateTime getFechaYHora() {
+        return fechaYHora;
+    }
+
+    public void setFechaYHora(LocalDateTime fechaYHora) {
+        this.fechaYHora = fechaYHora;
+    }
 }

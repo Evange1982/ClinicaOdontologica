@@ -1,4 +1,4 @@
-package com.backend.digitalhouse.ClinicaOdontologica.dto.salida.domicilio;
+package com.backend.digitalhouse.ClinicaOdontologica.dto.salida.paciente;
 
 
 

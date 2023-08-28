@@ -1,9 +1,6 @@
-package com.backend.digitalhouse.ClinicaOdontologica.dto.salida.paciente;
-
-
+package com.backend.digitalhouse.ClinicaOdontologica.dto.salida.domicilio;
 
 public class DomicilioSalidaDto {
-
     private int id;
     private String calle;
     private int numero;
@@ -19,6 +16,10 @@ public class DomicilioSalidaDto {
         this.localidad = localidad;
         this.provincia = provincia;
     }
+
+    public int getId(){return id;}
+
+    public void setId(int id){this.id = id;}
 
     public String getCalle() {
         return calle;
@@ -50,16 +51,5 @@ public class DomicilioSalidaDto {
 
     public void setProvincia(String provincia) {
         this.provincia = provincia;
-    }
-
-    @Override
-    public String toString() {
-        return "DomicilioSalidaDto{" +
-                "id=" + id +
-                ", calle='" + calle + '\'' +
-                ", numero=" + numero +
-                ", localidad='" + localidad + '\'' +
-                ", provincia='" + provincia + '\'' +
-                '}';
     }
 }

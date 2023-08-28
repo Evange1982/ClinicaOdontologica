@@ -170,6 +170,34 @@ public class DomicilioDaoH2 implements IDao<Domicilio> {
 
     @Override
     public Domicilio modificar(Domicilio domicilio) {
-        return null;
+        Connection connection = null;
+
+        try {
+            connection = H2Connection.getConnection();
+
+            PreparedStatement ps = connection.prepareStatement("UPDATE DOMICILIOS SET CALLE = ?, NUMERO = ?, LOCALIDAD = ?, PROVINCIA = ? WHERE ID = ?");
+            ps.setString(1, domicilio.getCalle());
+            ps.setInt(2, domicilio.getNumero());
+            ps.setString(3, domicilio.getLocalidad());
+            ps.setString(4, domicilio.getProvincia());
+            ps.setInt(5, domicilio.getId());
+            ps.execute();
+
+            connection.commit();
+
+            LOGGER.warn("El paciente con id " + domicilio.getId() + "ha sido modificado: " + domicilio);
+
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            LOGGER.error(e.getMessage());
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + e.getMessage());
+            }
+        }
+        return domicilio;
     }
 }

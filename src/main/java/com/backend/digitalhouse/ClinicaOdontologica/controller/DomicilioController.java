@@ -1,8 +1,13 @@
 package com.backend.digitalhouse.ClinicaOdontologica.controller;
 
+import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.domicilio.DomicilioEntradaDto;
+import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.modificado.DomicilioModificacionEntradaDto;
+import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.domicilio.DomicilioSalidaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.entity.Domicilio;
 import com.backend.digitalhouse.ClinicaOdontologica.service.IDomicilioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,27 +24,28 @@ public class DomicilioController {
     }
 
     @GetMapping("/")
-    public List<Domicilio> listarDomicilios(){
-        return domicilioService.listarDomicilios();
+    public ResponseEntity<List<DomicilioSalidaDto>> listarDomicilios(){
+        return new ResponseEntity<>(domicilioService.listarDomicilios(), HttpStatus.OK);
     }
 
     @PostMapping("/registrar")
-    public Domicilio registrarDomicilio(@RequestBody Domicilio domicilio){
-        return domicilioService.registrarDomicilio(domicilio);
+    public ResponseEntity<DomicilioSalidaDto> registrarDomicilio(@RequestBody DomicilioEntradaDto domicilio){
+        return new ResponseEntity<>(domicilioService.registrarDomicilio(domicilio), HttpStatus.CREATED);
     }
 
     @PutMapping("/actualizar")
-    public Domicilio actualizarDomicilio(@RequestBody Domicilio domicilio){
-        return domicilioService.modificarDomicilio(domicilio);
+    public ResponseEntity<DomicilioSalidaDto> actualizarDomicilio(@RequestBody DomicilioModificacionEntradaDto domicilioEntrada){
+        return new ResponseEntity<>(domicilioService.modificarDomicilio(domicilioEntrada), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Domicilio obtenerDomicilioPorId(@PathVariable int id){
-        return domicilioService.buscarDomicilioPorId(id);
+    public ResponseEntity<DomicilioSalidaDto> obtenerDomicilioPorId(@PathVariable int id){
+        return new ResponseEntity<>(domicilioService.buscarDomicilioPorId(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/eliminar/{id}")
-    public void eliminarDomicilio(@PathVariable int id){
+    public ResponseEntity<?> eliminarDomicilio(@PathVariable int id){
         domicilioService.eliminarDomicilio(id);
+        return new ResponseEntity<>("Domicilio eliminado Correctamente", HttpStatus.NO_CONTENT);
     }
 }

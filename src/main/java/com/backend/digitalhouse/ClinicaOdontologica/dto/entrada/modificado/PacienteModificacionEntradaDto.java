@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class PacienteModificacionEntradaDto {
 
     @NotNull
-    private int id;
+    private Long id;
 
     @NotNull
     private String nombre;
@@ -29,7 +29,7 @@ public class PacienteModificacionEntradaDto {
     public PacienteModificacionEntradaDto() {
     }
 
-    public PacienteModificacionEntradaDto(int id, String nombre, String apellido, String dni, LocalDateTime fechaIngreso, DomicilioModificacionEntradaDto domicilio) {
+    public PacienteModificacionEntradaDto(Long id, String nombre, String apellido, String dni, LocalDateTime fechaIngreso, DomicilioModificacionEntradaDto domicilio) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -46,11 +46,11 @@ public class PacienteModificacionEntradaDto {
         this.domicilio = domicilio;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

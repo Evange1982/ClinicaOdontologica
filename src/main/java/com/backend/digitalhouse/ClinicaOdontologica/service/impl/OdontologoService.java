@@ -1,6 +1,5 @@
 package com.backend.digitalhouse.ClinicaOdontologica.service.impl;
 
-import com.backend.digitalhouse.ClinicaOdontologica.dao.IDao;
 import com.backend.digitalhouse.ClinicaOdontologica.entity.Odontologo;
 import com.backend.digitalhouse.ClinicaOdontologica.service.IOdontologoService;
 import org.modelmapper.ModelMapper;

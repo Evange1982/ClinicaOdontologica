@@ -1,5 +1,6 @@
 package com.backend.digitalhouse.ClinicaOdontologica.entity;
 
+
 public class Odontologo {
     private int id;
     private String matricula;

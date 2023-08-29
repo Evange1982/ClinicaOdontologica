@@ -1,21 +1,25 @@
 package com.backend.digitalhouse.ClinicaOdontologica.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "DOMICILIOS")
 public class Domicilio {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "CALLE", nullable = false, length = 50)
     private String calle;
+    @Column(name = "NUMERO", nullable = false)
     private int numero;
+    @Column(name = "LOCALIDAD", nullable = false, length = 50)
     private String localidad;
+    @Column(name = "PROVINCIA", nullable = false)
     private String provincia;
 
     public Domicilio(){}
-
-    public Domicilio(int id, String calle, int numero, String localidad, String provincia) {
-        this.id = id;
-        this.calle = calle;
-        this.numero = numero;
-        this.localidad = localidad;
-        this.provincia = provincia;
-    }
 
     public Domicilio(String calle, int numero, String localidad, String provincia) {
         this.calle = calle;
@@ -24,12 +28,8 @@ public class Domicilio {
         this.provincia = provincia;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getCalle() {

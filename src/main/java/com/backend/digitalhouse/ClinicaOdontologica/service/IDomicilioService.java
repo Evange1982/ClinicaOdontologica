@@ -12,10 +12,10 @@ public interface IDomicilioService {
 
     DomicilioSalidaDto registrarDomicilio(DomicilioEntradaDto domicilio);
 
-    DomicilioSalidaDto buscarDomicilioPorId(int id);
+    DomicilioSalidaDto buscarDomicilioPorId(Long id);
 
     DomicilioSalidaDto modificarDomicilio(DomicilioModificacionEntradaDto domicilioEntrada);
 
-    void eliminarDomicilio(int id);
+    void eliminarDomicilio(Long id);
 
 }

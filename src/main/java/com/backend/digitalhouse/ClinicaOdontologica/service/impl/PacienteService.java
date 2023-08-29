@@ -26,7 +26,6 @@ public class PacienteService implements IPacienteService {
     public PacienteSalidaDto registrarPaciente(PacienteEntradaDto paciente) {
         Paciente pacienteRecibido = dtoEntradaAEntidad(paciente);
         Paciente pacienteRegistrado = pacienteIDao.registrar(pacienteRecibido);
-        System.out.println("Se registro el paciente: "+pacienteRegistrado);
         return entidadADtoSalida(pacienteRegistrado);
     }
 

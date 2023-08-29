@@ -1,52 +1,55 @@
 package com.backend.digitalhouse.ClinicaOdontologica.service.impl;
 
-import com.backend.digitalhouse.ClinicaOdontologica.dao.IDao;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.domicilio.DomicilioEntradaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.modificado.DomicilioModificacionEntradaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.domicilio.DomicilioSalidaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.entity.Domicilio;
+import com.backend.digitalhouse.ClinicaOdontologica.repository.DomicilioRepository;
 import com.backend.digitalhouse.ClinicaOdontologica.service.IDomicilioService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 
 public class DomicilioService implements IDomicilioService {
 
-    private final IDao<Domicilio> domicilioIDao;
+    //private final IDao<Domicilio> domicilioIDao;
     private final ModelMapper modelMapper;
+    private final DomicilioRepository domicilioRepository;
 
-    public DomicilioService(IDao<Domicilio> domicilioIDao, ModelMapper modelMapper){
-        this.domicilioIDao = domicilioIDao;
+    public DomicilioService(ModelMapper modelMapper, DomicilioRepository domicilioRepository){
         this.modelMapper = modelMapper;
+        this.domicilioRepository = domicilioRepository;
     }
 
     @Override
     public List<DomicilioSalidaDto> listarDomicilios() {
-        return domicilioIDao.listarTodos().stream().map(this::entityToDto).toList();
+        return domicilioRepository.findAll().stream().map(this::entityToDto).toList();
     }
 
     @Override
     public DomicilioSalidaDto registrarDomicilio(DomicilioEntradaDto domicilioEntrada) {
-        Domicilio domicilioRegistrado = domicilioIDao.registrar(dtoToEntity(domicilioEntrada));
+        Domicilio domicilioRegistrado = domicilioRepository.save(dtoToEntity(domicilioEntrada));
         return entityToDto(domicilioRegistrado);
     }
 
     @Override
-    public DomicilioSalidaDto buscarDomicilioPorId(int id) {
-        return entityToDto(domicilioIDao.buscarPorId(id));
+    public DomicilioSalidaDto buscarDomicilioPorId(Long id) {
+        return entityToDto(domicilioRepository.getReferenceById(id));
     }
 
     @Override
     public DomicilioSalidaDto modificarDomicilio(DomicilioModificacionEntradaDto domicilioEntrada) {
-        Domicilio domicilioSalida = domicilioIDao.modificar(domicilioModificadoEntradaDtoToEntity(domicilioEntrada));
+        Domicilio domicilioSalida = domicilioRepository.save(domicilioModificadoEntradaDtoToEntity(domicilioEntrada));
         return entityToDto(domicilioSalida);
     }
 
     @Override
-    public void eliminarDomicilio(int id) {
-        domicilioIDao.eliminar(id);
+    public void eliminarDomicilio(Long id) {
+        domicilioRepository.deleteById(id);
     }
 
     private Domicilio dtoToEntity(DomicilioEntradaDto domicilioEntrada){

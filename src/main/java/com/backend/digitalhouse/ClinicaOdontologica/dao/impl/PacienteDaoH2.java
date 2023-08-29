@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
             ps.setString(1, paciente.getNombre());
             ps.setString(2, paciente.getApellido());
             ps.setInt(3, paciente.getDni());
-            ps.setDate(4, Date.valueOf(paciente.getFechaIngreso()));
+            //ps.setDate(4, LocalDateTime.valueOf(paciente.getFechaIngreso()));
             ps.setInt(5, domicilio.getId());
             ps.execute();
 
@@ -41,7 +42,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
 
             ResultSet rs = ps.getGeneratedKeys();
             while (rs.next()){
-                paciente1.setId(rs.getInt(1));
+               // paciente1.setId(rs.getInt(1));
             }
 
             connection.commit();
@@ -193,7 +194,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
             ps.setString(1,pacienteModificado.getNombre());
             ps.setString(2, pacienteModificado.getApellido());
             ps.setInt(3, pacienteModificado.getDni());
-            ps.setDate(4, Date.valueOf(pacienteModificado.getFechaIngreso()));
+            //ps.setDate(4, LocalDateTime.valueOf(pacienteModificado.getFechaIngreso()));
             ps.setInt(5, pacienteModificado.getDomicilio().getId());
             ps.setInt(6, pacienteModificado.getId());
             ps.execute();
@@ -226,6 +227,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
 
         Domicilio domicilioPaciente = new DomicilioDaoH2().buscarPorId(resultSet.getInt("domicilio_id"));
 
-        return new Paciente(idPaciente, nombrePaciente, apellidoPaciente, dniPaciente, fechaIngreso, domicilioPaciente);
+        //return new Paciente(idPaciente, nombrePaciente, apellidoPaciente, dniPaciente, fechaIngreso, domicilioPaciente);
+        return null;
     }
 }

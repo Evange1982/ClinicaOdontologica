@@ -5,6 +5,8 @@ import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.paciente.Paciente
 import com.backend.digitalhouse.ClinicaOdontologica.entity.Paciente;
 import com.backend.digitalhouse.ClinicaOdontologica.repository.PacienteRepository;
 import com.backend.digitalhouse.ClinicaOdontologica.service.IPacienteService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
@@ -14,7 +16,7 @@ import java.util.List;
 
 @Service
 public class PacienteService implements IPacienteService {
-    //private final IDao<Paciente> pacienteIDao;
+    private final Logger LOGGER = LoggerFactory.getLogger(PacienteService.class);
     private final PacienteRepository pacienteRepository;
     private final ModelMapper modelMapper;
 
@@ -32,19 +34,40 @@ public class PacienteService implements IPacienteService {
 
     @Override
     public PacienteSalidaDto buscarPacientePorId(Long id) {
-        Paciente pacienteEncontrado = pacienteRepository.getReferenceById(id);
-        return entidadADtoSalida(pacienteEncontrado);
+        Paciente pacienteEncontrado = pacienteRepository.findById(id).orElse(null);
+        PacienteSalidaDto pacienteEncontradoDto = null;
+
+        if(pacienteEncontrado != null){
+            pacienteEncontradoDto = entidadADtoSalida(pacienteEncontrado);
+            LOGGER.info("Paciente encontrado: {}", pacienteEncontradoDto);
+        }else {
+            LOGGER.error("El id: {} no se encuentra registrado en la base de datos", id);
+        }
+
+        return pacienteEncontradoDto;
     }
 
     @Override
     public List<PacienteSalidaDto> listarPacientes() {
-        List<Paciente> pacientes = pacienteRepository.findAll();
-
-        return pacientes.stream().map(this::entidadADtoSalida).toList();
+        List<Paciente> listaPacientes = pacienteRepository.findAll();
+        List<PacienteSalidaDto> listaPacientesDto = null;
+        if(listaPacientes != null){
+            listaPacientesDto = listaPacientes.stream().map(this::entidadADtoSalida).toList();
+            LOGGER.info("Listado de todos los pacientes: {}", listaPacientesDto);
+        }else {
+            LOGGER.info("No hay pacientes");
+        }
+        return listaPacientesDto;
     }
     @Override
     public void eliminarPaciente(Long id){
-        pacienteRepository.deleteById(id);
+        if(buscarPacientePorId(id) != null ){
+            pacienteRepository.deleteById(id);
+            LOGGER.warn("Se ha eliminado el paciente con id: {}", id);
+        }else {
+            LOGGER.error("No se ha encontrado el paciente con id {}", id);
+        }
+
     }
 
     @Override
@@ -55,7 +78,7 @@ public class PacienteService implements IPacienteService {
         if(pacienteAModificar != null){
             pacienteAModificar = dtoModificadoAEntidad(pacienteModificado);
             pacienteSalidaDto = entidadADtoSalida(pacienteRepository.save(pacienteAModificar));
-
+            LOGGER.warn("Se ha modificado el paciente: ", pacienteSalidaDto);
         }
 
         return pacienteSalidaDto;

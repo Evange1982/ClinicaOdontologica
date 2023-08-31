@@ -1,7 +1,6 @@
 package com.backend.digitalhouse.ClinicaOdontologica.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,16 +9,18 @@ public class Paciente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PACIENTES_ID")
     private Long id;
-    @Column(name = "NOMBRE", nullable = false, length = 50)
+    @Column(name = "PACIENTES_NOMBRE", nullable = false, length = 50)
     private String nombre;
-    @Column(name = "APELLIDO", nullable = false, length = 50)
+    @Column(name = "PACIENTES_APELLIDO", nullable = false, length = 50)
     private String apellido;
-    @Column(name = "DNI", nullable = false)
+    @Column(name = "PACIENTES_DNI", nullable = false)
     private int dni;
-    @Column(name = "FECHA_INGRESO", nullable = false)
+    @Column(name = "PACIENTES_FECHA_INGRESO", nullable = false)
     private LocalDateTime fechaIngreso;
-    @Column(name = "DOMICILIO", nullable = false, length = 50)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "DOMICILIOS_ID")
     private Domicilio domicilio;
 
     public Paciente(){}

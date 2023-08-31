@@ -1,31 +1,30 @@
 package com.backend.digitalhouse.ClinicaOdontologica.entity;
 
-import java.time.LocalDate;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "TURNOS")
 public class Turno {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "TURNOS_ID")
+    private Long id;
+    @ManyToOne
+    @JoinColumn(name = "ODONTOLOGOS_ID")
     private Odontologo odontologo;
+    @ManyToOne
+    @JoinColumn(name = "PACIENTES_ID")
     private Paciente paciente;
+    @Column(name = "TURNOS_FECHA", nullable = false)
     private LocalDateTime fechaYHora;
 
     public Turno(){}
-
-    public Turno(int id, Odontologo odontologo, Paciente paciente, LocalDateTime fechaYHora) {
-        this.id = id;
-        this.odontologo = odontologo;
-        this.paciente = paciente;
-        this.fechaYHora = fechaYHora;
-    }
 
     public Turno(Odontologo odontologo, Paciente paciente, LocalDateTime fechaYHora) {
         this.odontologo = odontologo;
         this.paciente = paciente;
         this.fechaYHora = fechaYHora;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public Odontologo getOdontologo() {
@@ -52,7 +51,7 @@ public class Turno {
         this.fechaYHora = fechaYHora;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

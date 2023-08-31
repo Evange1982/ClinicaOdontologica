@@ -1,6 +1,7 @@
 package com.backend.digitalhouse.ClinicaOdontologica.controller;
 
 
+import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.odontologo.OdontologoSalidaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.entity.Odontologo;
 import com.backend.digitalhouse.ClinicaOdontologica.service.IOdontologoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,22 +22,22 @@ public class OdontologoController {
     }
 
     @GetMapping("/")
-    public List<Odontologo> listarOdontologo(){
+    public List<OdontologoSalidaDto> listarOdontologo(){
         return OdontologoService.listarOdontologos();
     }
 
     @PostMapping("/registrar")
-    public Odontologo registrarOdontologo(@RequestBody Odontologo Odontologo){
+    public OdontologoSalidaDto registrarOdontologo(@RequestBody Odontologo Odontologo){
         return OdontologoService.registrarOdontologo(Odontologo);
     }
 
     @GetMapping("/{id}")
-    public Odontologo buscarOdontologoPorId(@PathVariable int id){
+    public OdontologoSalidaDto buscarOdontologoPorId(@PathVariable Long id){
         return OdontologoService.buscarOdontologoPorId(id);
     }
 
     @DeleteMapping("/eliminar/{id}")
-    public void eliminarOdontologo(@PathVariable int id){OdontologoService.eliminarOdontologo(id);
+    public void eliminarOdontologo(@PathVariable Long id){OdontologoService.eliminarOdontologo(id);
     }
 }
 

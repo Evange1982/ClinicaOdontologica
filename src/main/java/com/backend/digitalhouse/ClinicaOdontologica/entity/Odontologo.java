@@ -1,40 +1,39 @@
 package com.backend.digitalhouse.ClinicaOdontologica.entity;
 
+import javax.persistence.*;
 
+@Entity
+@Table(name = "ODONTOLOGOS")
 public class Odontologo {
-    private int id;
-    private String matricula;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column(name = "ODONTOLOGOS_ID")
+    private Long id;
+    @Column(name = "ODONTOLOGOS_MATRICULA", nullable = false)
+    private int matricula;
+    @Column(name = "ODONTOLOGOS_NOMBRE", nullable = false, length = 25)
     private String nombre;
+    @Column(name = "ODONTOLOGOS_APELLIDO", nullable = false, length = 50)
     private String apellido;
 
     public Odontologo(){}
 
-    public Odontologo(int id, String matricula, String nombre, String apellido) {
-        this.id = id;
+
+    public Odontologo(int matricula, String nombre, String apellido) {
         this.matricula = matricula;
         this.nombre = nombre;
         this.apellido = apellido;
     }
 
-    public Odontologo(String matricula, String nombre, String apellido) {
-        this.matricula = matricula;
-        this.nombre = nombre;
-        this.apellido = apellido;
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getMatricula() {
+    public int getMatricula() {
         return matricula;
     }
 
-    public void setMatricula(String matricula) {
+    public void setMatricula(int matricula) {
         this.matricula = matricula;
     }
 

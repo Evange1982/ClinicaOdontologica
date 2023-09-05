@@ -29,7 +29,7 @@ public class TurnoEntradaDto {
         this.fechaYHora = fechaYHora;
     }
 
-    public int getPacienteId() {
+    public long getPacienteId() {
         return pacienteId;
     }
 
@@ -37,7 +37,7 @@ public class TurnoEntradaDto {
         this.pacienteId = pacienteId;
     }
 
-    public int getOdontologoId() {
+    public long getOdontologoId() {
         return odontologoId;
     }
 

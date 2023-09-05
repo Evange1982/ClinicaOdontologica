@@ -1,6 +1,7 @@
 package com.backend.digitalhouse.ClinicaOdontologica.service.impl;
 
 import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.modificado.DomicilioModificacionEntradaDto;
+import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.modificado.OdontologoModificacionEntradaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.odontologo.OdontologoEntradaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.odontologo.OdontologoSalidaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.entity.Domicilio;
@@ -64,6 +65,11 @@ public class OdontologoService implements IOdontologoService {
         }else {
             LOGGER.error("No se ha encontrado el odontologo con id {}", id);
         }
+    }
+
+    @Override
+    public OdontologoSalidaDto actualizarOdontologo(OdontologoModificacionEntradaDto odontologoModificacionEntradaDto) {
+        return null;
     }
 
     private Odontologo dtoToEntity(OdontologoEntradaDto odontologoEntrada){

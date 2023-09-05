@@ -1,5 +1,7 @@
 package com.backend.digitalhouse.ClinicaOdontologica.dto.salida.turno;
 
+import com.backend.digitalhouse.ClinicaOdontologica.entity.Turno;
+
 import java.time.LocalDateTime;
 
 public class TurnoSalidaDto {
@@ -18,7 +20,7 @@ public class TurnoSalidaDto {
         this.fechaYHora = fechaYHora;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

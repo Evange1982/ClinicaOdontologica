@@ -1,5 +1,6 @@
 package com.backend.digitalhouse.ClinicaOdontologica.service;
 
+import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.modificado.OdontologoModificacionEntradaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.odontologo.OdontologoSalidaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.entity.Odontologo;
 
@@ -14,5 +15,6 @@ public interface IOdontologoService {
 
     void eliminarOdontologo(Long id);
 
+   OdontologoSalidaDto actualizarOdontologo(OdontologoModificacionEntradaDto odontologoModificacionEntradaDto);
 
 }

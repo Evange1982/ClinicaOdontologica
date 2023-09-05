@@ -8,15 +8,16 @@ public class Domicilio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "DOMICILIOS_ID")
     private Long id;
 
-    @Column(name = "CALLE", nullable = false, length = 500)
+    @Column(name = "DOMICILIOS_CALLE", nullable = false, length = 500)
     private String calle;
-    @Column(name = "NUMERO", nullable = false)
+    @Column(name = "DOMICILIOS_NUMERO", nullable = false)
     private int numero;
-    @Column(name = "LOCALIDAD", nullable = false, length = 50)
+    @Column(name = "DOMICILIOS_LOCALIDAD", nullable = false, length = 50)
     private String localidad;
-    @Column(name = "PROVINCIA", nullable = false)
+    @Column(name = "DOMICILIOS_PROVINCIA", nullable = false)
     private String provincia;
 
     public Domicilio(){}

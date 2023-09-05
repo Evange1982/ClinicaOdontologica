@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Odontologo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column(name = "ODONTOLOGOS_ID")
+    @Column(name = "ODONTOLOGOS_ID")
     private Long id;
     @Column(name = "ODONTOLOGOS_MATRICULA", nullable = false)
     private int matricula;

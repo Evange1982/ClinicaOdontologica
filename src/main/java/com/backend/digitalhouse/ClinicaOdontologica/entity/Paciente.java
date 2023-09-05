@@ -23,7 +23,8 @@ public class Paciente {
     @JoinColumn(name = "DOMICILIOS_ID")
     private Domicilio domicilio;
 
-    public Paciente(){}
+    public Paciente(){
+    }
 
     public Paciente(String nombre, String apellido, int dni, LocalDateTime fechaIngreso, Domicilio domicilio) {
         this.nombre = nombre;

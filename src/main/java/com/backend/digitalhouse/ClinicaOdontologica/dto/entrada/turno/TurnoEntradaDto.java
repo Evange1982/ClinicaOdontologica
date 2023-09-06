@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 public class TurnoEntradaDto {
 
     @NotNull(message = "El paciente no existe")
-    private int pacienteId;
+    private Long pacienteId;
 
     @NotNull(message = "El odontologo no existe")
-    private int odontologoId;
+    private Long odontologoId;
 
     //@JsonFormat( shape= "")
     @FutureOrPresent(message = "La fecha no puede ser anterior a dia de hoy")
@@ -23,25 +23,25 @@ public class TurnoEntradaDto {
 
     public TurnoEntradaDto(){}
 
-    public TurnoEntradaDto(int pacienteId, int odontologoId, LocalDateTime fechaYHora) {
+    public TurnoEntradaDto(Long pacienteId, Long odontologoId, LocalDateTime fechaYHora) {
         this.pacienteId = pacienteId;
         this.odontologoId = odontologoId;
         this.fechaYHora = fechaYHora;
     }
 
-    public int getPacienteId() {
+    public Long getPacienteId() {
         return pacienteId;
     }
 
-    public void setPacienteId(int pacienteId) {
+    public void setPacienteId(Long pacienteId) {
         this.pacienteId = pacienteId;
     }
 
-    public int getOdontologoId() {
+    public Long getOdontologoId() {
         return odontologoId;
     }
 
-    public void setOdontologoId(int odontologoId) {
+    public void setOdontologoId(Long odontologoId) {
         this.odontologoId = odontologoId;
     }
 

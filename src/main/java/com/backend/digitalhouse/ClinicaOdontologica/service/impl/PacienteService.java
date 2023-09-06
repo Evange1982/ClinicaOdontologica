@@ -3,6 +3,7 @@ package com.backend.digitalhouse.ClinicaOdontologica.service.impl;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.modificado.PacienteModificacionEntradaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.paciente.PacienteSalidaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.entity.Paciente;
+import com.backend.digitalhouse.ClinicaOdontologica.exceptions.BadRequestException;
 import com.backend.digitalhouse.ClinicaOdontologica.repository.PacienteRepository;
 import com.backend.digitalhouse.ClinicaOdontologica.service.IPacienteService;
 import org.slf4j.Logger;
@@ -42,6 +43,7 @@ public class PacienteService implements IPacienteService {
             LOGGER.info("Paciente encontrado: {}", pacienteEncontradoDto);
         }else {
             LOGGER.error("El id: {} no se encuentra registrado en la base de datos", id);
+
         }
 
         return pacienteEncontradoDto;

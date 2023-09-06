@@ -1,7 +1,7 @@
 package com.backend.digitalhouse.ClinicaOdontologica.entity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "PACIENTES")
@@ -18,7 +18,7 @@ public class Paciente {
     @Column(name = "PACIENTES_DNI", nullable = false)
     private int dni;
     @Column(name = "PACIENTES_FECHA_INGRESO", nullable = false)
-    private LocalDateTime fechaIngreso;
+    private LocalDate fechaIngreso;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "DOMICILIOS_ID")
     private Domicilio domicilio;
@@ -26,7 +26,7 @@ public class Paciente {
     public Paciente(){
     }
 
-    public Paciente(String nombre, String apellido, int dni, LocalDateTime fechaIngreso, Domicilio domicilio) {
+    public Paciente(String nombre, String apellido, int dni, LocalDate fechaIngreso, Domicilio domicilio) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
@@ -62,11 +62,11 @@ public class Paciente {
         this.dni = dni;
     }
 
-    public LocalDateTime getFechaIngreso() {
+    public LocalDate getFechaIngreso() {
         return fechaIngreso;
     }
 
-    public void setFechaIngreso(LocalDateTime fechaIngreso) {
+    public void setFechaIngreso(LocalDate fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 

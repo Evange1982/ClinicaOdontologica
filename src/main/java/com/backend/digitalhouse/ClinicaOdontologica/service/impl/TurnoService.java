@@ -77,7 +77,7 @@ public class TurnoService implements ITurnoService {
     }
 
     @Override
-    public void eliminarTurno(Long id) throws ResourceNotFoundException{
+    public void eliminarTurnoId(Long id) throws ResourceNotFoundException{
         if (buscarTurnoPorId(id) != null) {
             turnoRepository.deleteById(id);
             LOGGER.warn("Se ha eliminado el turno con id: {}", id);

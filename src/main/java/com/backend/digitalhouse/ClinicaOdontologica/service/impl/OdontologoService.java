@@ -36,8 +36,9 @@ public class OdontologoService implements IOdontologoService {
     }
 
     @Override
-    public OdontologoSalidaDto registrarOdontologo(Odontologo odontologo) {
-        OdontologoSalidaDto odontologoSalidaDto = entityToDto(odontologoRepository.save(odontologo));
+    public OdontologoSalidaDto registrarOdontologo(OdontologoEntradaDto odontologo) {
+        Odontologo odontologoEntity = odontologoRepository.save(dtoToEntity(odontologo));
+        OdontologoSalidaDto odontologoSalidaDto = entityToDto(odontologoEntity);
         LOGGER.info("Odontologo guardado: {}", odontologoSalidaDto);
         return odontologoSalidaDto;
     }

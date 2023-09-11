@@ -39,11 +39,12 @@
     }
     
     document.addEventListener("DOMContentLoaded", function() {
+        
         const formularioOdontologo = document.querySelector("#formularioOdontologo");
     
         formularioOdontologo.addEventListener("submit", async function(event) {
+            console.log("Se envia los datos del formulario");
             event.preventDefault();
-    
             const matricula = document.querySelector("#matricula").value;
             const nombre = document.querySelector("#nombre").value;
             const apellido = document.querySelector("#apellido").value;

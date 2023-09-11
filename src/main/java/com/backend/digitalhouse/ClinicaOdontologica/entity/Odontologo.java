@@ -3,7 +3,9 @@ package com.backend.digitalhouse.ClinicaOdontologica.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ODONTOLOGOS")
+@Table(name = "ODONTOLOGOS", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"ODONTOLOGOS_MATRICULA"})
+})
 public class Odontologo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

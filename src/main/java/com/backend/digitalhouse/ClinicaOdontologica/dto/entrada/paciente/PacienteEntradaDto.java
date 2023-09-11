@@ -3,6 +3,8 @@ package com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.paciente;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.domicilio.DomicilioEntradaDto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
@@ -31,6 +33,7 @@ public class PacienteEntradaDto {
 
 
     @NotNull(message = "El domicilio del paciente no puede ser nulo")
+    @Valid
     private DomicilioEntradaDto domicilio;
 
     public PacienteEntradaDto() {

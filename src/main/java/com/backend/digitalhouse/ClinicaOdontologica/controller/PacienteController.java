@@ -3,6 +3,7 @@ package com.backend.digitalhouse.ClinicaOdontologica.controller;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.modificado.PacienteModificacionEntradaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.paciente.PacienteEntradaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.paciente.PacienteSalidaDto;
+import com.backend.digitalhouse.ClinicaOdontologica.exceptions.ResourceNotFoundException;
 import com.backend.digitalhouse.ClinicaOdontologica.service.IPacienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -57,7 +58,7 @@ public class PacienteController {
                     content = @Content)
     })
     @PutMapping("/actualizar")
-    public ResponseEntity<PacienteSalidaDto> actualizarPaciente(@Valid @RequestBody PacienteModificacionEntradaDto paciente) {
+    public ResponseEntity<PacienteSalidaDto> actualizarPaciente(@Valid @RequestBody PacienteModificacionEntradaDto paciente) throws ResourceNotFoundException {
         return new ResponseEntity<>(pacienteService.modificarPaciente(paciente), HttpStatus.OK);
     }
 
@@ -94,7 +95,7 @@ public class PacienteController {
                     content = @Content)
     })
     @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<?> eliminarPaciente(@PathVariable Long id){
+    public ResponseEntity<?> eliminarPaciente(@PathVariable Long id) throws ResourceNotFoundException {
         pacienteService.eliminarPaciente(id);
         return new ResponseEntity<>("Paciente eliminado correctamente", HttpStatus.NO_CONTENT);
     }

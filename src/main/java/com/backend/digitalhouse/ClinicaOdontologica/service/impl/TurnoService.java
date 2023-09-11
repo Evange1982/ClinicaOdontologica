@@ -56,11 +56,10 @@ public class TurnoService implements ITurnoService {
                 throw new BadRequestException("El paciente y el odontologo no se encuentran en nuestra base de datos");
             } else if (paciente == null) {
                 LOGGER.error(pacienteNoEnBdd);
-                throw new BadRequestException("No se encuentra el paciente ");
-                //throw new RuntimeException(pacienteNoEnBdd);
+                throw new BadRequestException(pacienteNoEnBdd);
             } else {
                 LOGGER.error(odontologoNoEnBdd);
-                //throw new RuntimeException(odontologoNoEnBdd);
+                throw new BadRequestException(odontologoNoEnBdd);
             }
         } else {
             Turno turnoNuevo = turnoRepository.save(modelMapper.map(turnoEntradaDto, Turno.class));

@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -96,7 +95,7 @@ public class OdontologoController {
                     content = @Content)
     })
     @DeleteMapping("/eliminar/{id}")
-    public void eliminarOdontologo(@PathVariable Long id){odontologoService.eliminarOdontologo(id);
+    public void eliminarOdontologo(@PathVariable Long id) throws ResourceNotFoundException {odontologoService.eliminarOdontologo(id);
     }
 
     @GetMapping("/")

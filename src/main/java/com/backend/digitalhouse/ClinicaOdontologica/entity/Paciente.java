@@ -4,7 +4,9 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "PACIENTES")
+@Table(name = "PACIENTES", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"PACIENTES_DNI"})
+})
 public class Paciente {
 
     @Id

@@ -4,6 +4,7 @@ import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.modificado.Pacie
 import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.paciente.PacienteSalidaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.entity.Paciente;
 import com.backend.digitalhouse.ClinicaOdontologica.exceptions.BadRequestException;
+import com.backend.digitalhouse.ClinicaOdontologica.exceptions.ResourceNotFoundException;
 import com.backend.digitalhouse.ClinicaOdontologica.repository.PacienteRepository;
 import com.backend.digitalhouse.ClinicaOdontologica.service.IPacienteService;
 import org.slf4j.Logger;
@@ -61,19 +62,21 @@ public class PacienteService implements IPacienteService {
         }
         return listaPacientesDto;
     }
+
     @Override
-    public void eliminarPaciente(Long id){
+    public void eliminarPaciente(Long id) throws ResourceNotFoundException {
         if(buscarPacientePorId(id) != null ){
             pacienteRepository.deleteById(id);
             LOGGER.warn("Se ha eliminado el paciente con id: {}", id);
         }else {
             LOGGER.error("No se ha encontrado el paciente con id {}", id);
+            throw new ResourceNotFoundException("No se ha encontrado el paciente con id " + id);
         }
 
     }
 
     @Override
-    public PacienteSalidaDto modificarPaciente(PacienteModificacionEntradaDto pacienteModificado) {
+    public PacienteSalidaDto modificarPaciente(PacienteModificacionEntradaDto pacienteModificado) throws ResourceNotFoundException {
         PacienteSalidaDto pacienteSalidaDto = null;
         Paciente pacienteAModificar = pacienteRepository.getReferenceById(pacienteModificado.getId());
 
@@ -81,6 +84,9 @@ public class PacienteService implements IPacienteService {
             pacienteAModificar = dtoModificadoAEntidad(pacienteModificado);
             pacienteSalidaDto = entidadADtoSalida(pacienteRepository.save(pacienteAModificar));
             LOGGER.warn("Se ha modificado el paciente: ", pacienteSalidaDto);
+        }else{
+            LOGGER.error("No fue posible actualizar los datos ya que el paciente no se encuentra registrado");
+            throw new ResourceNotFoundException("No fue posible actualizar los datos ya que el paciente no se encuentra registrado");
         }
 
         return pacienteSalidaDto;

@@ -59,7 +59,9 @@
     
             try {
                 const response = await enviarDatos(url, 'POST', data);
-                mostrarMensaje('success', response);
+                console.log(data);
+                let mensaje = ' Se agrego el Odontologo \n'+data.nombre+' '+data.apellido;
+                mostrarMensaje('success', mensaje);
             } catch (error) {
                 mostrarMensaje('error', error);
             }

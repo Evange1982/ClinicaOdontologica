@@ -29,9 +29,13 @@ public class PacienteService implements IPacienteService {
     }
 
     public PacienteSalidaDto registrarPaciente(PacienteEntradaDto paciente) {
-        Paciente pacienteRecibido = dtoEntradaAEntidad(paciente);
-        Paciente pacienteRegistrado = pacienteRepository.save(pacienteRecibido);
-        return entidadADtoSalida(pacienteRegistrado);
+        Paciente pacGuardado = pacienteRepository.save(dtoEntradaAEntidad(paciente));
+        PacienteSalidaDto pacienteSalidaDto = entidadADtoSalida(pacGuardado);
+        LOGGER.info("Paciente guardado: {}", pacienteSalidaDto);
+        return pacienteSalidaDto;
+        //Paciente pacienteRecibido = dtoEntradaAEntidad(paciente);
+        //Paciente pacienteRegistrado = pacienteRepository.save(pacienteRecibido);
+        //return entidadADtoSalida(pacienteRegistrado);
     }
 
     @Override
@@ -44,7 +48,6 @@ public class PacienteService implements IPacienteService {
             LOGGER.info("Paciente encontrado: {}", pacienteEncontradoDto);
         }else {
             LOGGER.error("El id: {} no se encuentra registrado en la base de datos", id);
-
         }
 
         return pacienteEncontradoDto;
@@ -52,15 +55,11 @@ public class PacienteService implements IPacienteService {
 
     @Override
     public List<PacienteSalidaDto> listarPacientes() {
-        List<Paciente> listaPacientes = pacienteRepository.findAll();
-        List<PacienteSalidaDto> listaPacientesDto = null;
-        if(listaPacientes != null){
-            listaPacientesDto = listaPacientes.stream().map(this::entidadADtoSalida).toList();
-            LOGGER.info("Listado de todos los pacientes: {}", listaPacientesDto);
-        }else {
-            LOGGER.info("No hay pacientes");
-        }
-        return listaPacientesDto;
+        List<PacienteSalidaDto> pacientes = pacienteRepository.findAll().stream()
+                .map(this::entidadADtoSalida).toList();
+
+        LOGGER.info("Listado de todos los pacientes: {}", pacientes);
+        return pacientes;
     }
 
     @Override
@@ -77,14 +76,16 @@ public class PacienteService implements IPacienteService {
 
     @Override
     public PacienteSalidaDto modificarPaciente(PacienteModificacionEntradaDto pacienteModificado) throws ResourceNotFoundException {
+        Paciente pacienteRecibido = dtoModificadoAEntidad(pacienteModificado);
+        Paciente pacienteAActualizar = pacienteRepository.findById(pacienteModificado.getId()).orElse(null);
         PacienteSalidaDto pacienteSalidaDto = null;
-        Paciente pacienteAModificar = pacienteRepository.getReferenceById(pacienteModificado.getId());
 
-        if(pacienteAModificar != null){
-            pacienteAModificar = dtoModificadoAEntidad(pacienteModificado);
-            pacienteSalidaDto = entidadADtoSalida(pacienteRepository.save(pacienteAModificar));
-            LOGGER.warn("Se ha modificado el paciente: ", pacienteSalidaDto);
-        }else{
+        if (pacienteAActualizar != null) {
+            pacienteAActualizar = pacienteRecibido;
+            pacienteRepository.save(pacienteAActualizar);
+            pacienteSalidaDto = entidadADtoSalida(pacienteAActualizar);
+            LOGGER.warn("Paciente actualizado: {}", pacienteSalidaDto);
+        } else {
             LOGGER.error("No fue posible actualizar los datos ya que el paciente no se encuentra registrado");
             throw new ResourceNotFoundException("No fue posible actualizar los datos ya que el paciente no se encuentra registrado");
         }

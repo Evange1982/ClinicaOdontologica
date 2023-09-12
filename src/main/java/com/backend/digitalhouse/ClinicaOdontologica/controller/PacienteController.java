@@ -19,6 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/pacientes")
 public class PacienteController {
     private final IPacienteService pacienteService;
@@ -100,6 +101,16 @@ public class PacienteController {
         return new ResponseEntity<>("Paciente eliminado correctamente", HttpStatus.NO_CONTENT);
     }
 
+    @Operation(summary = "Listado de todos los Paciente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Listado de Pacientes obtenido correctamente",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PacienteSalidaDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad Request",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Server error",
+                    content = @Content)
+    })
     @GetMapping("/")
     public ResponseEntity<List<PacienteSalidaDto>> listarPacientes(){
         return new ResponseEntity<>(pacienteService.listarPacientes(), HttpStatus.OK);

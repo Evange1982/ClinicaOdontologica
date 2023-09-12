@@ -38,32 +38,31 @@
             text : message,
         });
     }
-    
-    function exito(data) {
-        console.log('Solicitud exitosa:', data);
-    }
-    
-    function error(err) {
-        console.error('Error en la solicitud:', err);
-    }
 
     document.addEventListener("DOMContentLoaded", function() {
         
-        const formularioOdontologo = document.querySelector("#formularioOdontologo");
+        const formularioOdontologo = document.querySelector("#formularioPaciente");
     
         formularioOdontologo.addEventListener("submit", async function(event) {
             event.preventDefault();
 
             const data = {
-                matricula: document.querySelector("#matricula").value,
-                nombre: document.querySelector("#nombre").value,
-                apellido: document.querySelector("#apellido").value
-            };
-    
-            const url = url_base + '/odontologos/registrar';
-    
+                "nombre": document.querySelector("#nombre").value,
+                "apellido": document.querySelector("#apellido").value,
+                "dni" : parseInt(document.querySelector("#dni").value),
+                "fechaIngreso" : document.querySelector("#fechaIngreso").value,
+                "domicilio" : {
+                    "calle" : document.querySelector("#calle").value,
+                    "numero" : parseInt(document.querySelector("#altura").value),
+                    "localidad" : document.querySelector("#localidad").value,
+                    "provincia" : document.querySelector("#provincia").value
+                } 
+            }
+
+            const url = url_base + '/pacientes/registrar';
+            console.log(data);
             try {
-                const response = await enviarDatos(url, 'POST', data, exito, error);
+                const response = await enviarDatos(url, 'POST', data);
                 //console.log(response);
                 let mensaje = ' Se agrego el Odontologo \n'+data.nombre+' '+data.apellido;
                 mostrarMensaje('success', mensaje);
@@ -71,6 +70,8 @@
                 const mensajeFinal = error.message;
                 mostrarMensaje('error', mensajeFinal);
             }
+
+            console.log(data);  
         });
     });
 })();

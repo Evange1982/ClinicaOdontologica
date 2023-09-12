@@ -12,7 +12,7 @@ public class Odontologo {
     @Column(name = "ODONTOLOGOS_ID")
     private Long id;
     @Column(name = "ODONTOLOGOS_MATRICULA", nullable = false)
-    private int matricula;
+    private String matricula;
     @Column(name = "ODONTOLOGOS_NOMBRE", nullable = false, length = 25)
     private String nombre;
     @Column(name = "ODONTOLOGOS_APELLIDO", nullable = false, length = 50)
@@ -21,7 +21,7 @@ public class Odontologo {
     public Odontologo(){}
 
 
-    public Odontologo(int matricula, String nombre, String apellido) {
+    public Odontologo(String matricula, String nombre, String apellido) {
         this.matricula = matricula;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -31,11 +31,11 @@ public class Odontologo {
         return id;
     }
 
-    public int getMatricula() {
+    public String getMatricula() {
         return matricula;
     }
 
-    public void setMatricula(int matricula) {
+    public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
 

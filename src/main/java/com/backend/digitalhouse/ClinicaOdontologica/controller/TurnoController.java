@@ -1,5 +1,6 @@
 package com.backend.digitalhouse.ClinicaOdontologica.controller;
 
+import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.modificado.TurnoModificacionEntradaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.turno.TurnoEntradaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.turno.TurnoSalidaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.exceptions.BadRequestException;
@@ -58,7 +59,7 @@ public class TurnoController {
                     content = @Content)
     })
     @PutMapping("actualizar")
-    public ResponseEntity<TurnoSalidaDto> actualizarTurno(@Valid @RequestBody TurnoEntradaDto turnoModificacionEntradaDto) throws ResourceNotFoundException {
+    public ResponseEntity<TurnoSalidaDto> actualizarTurno(@Valid @RequestBody TurnoModificacionEntradaDto turnoModificacionEntradaDto) throws ResourceNotFoundException {
         return new ResponseEntity<>(turnoService.modificarTurno(turnoModificacionEntradaDto), HttpStatus.OK);
     }
 

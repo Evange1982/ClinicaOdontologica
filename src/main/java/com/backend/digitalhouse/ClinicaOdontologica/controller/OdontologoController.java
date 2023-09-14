@@ -61,7 +61,7 @@ public class OdontologoController {
             @ApiResponse(responseCode = "500", description = "UServer error",
                     content = @Content)
     })
-    @PutMapping("actualizar")
+    @PutMapping("/actualizar")
     public ResponseEntity<OdontologoSalidaDto> actualizarOdontologo(@Valid @RequestBody OdontologoModificacionEntradaDto odontologo) throws ResourceNotFoundException {
         return new ResponseEntity<>(odontologoService.actualizarOdontologo(odontologo), HttpStatus.OK);
     }

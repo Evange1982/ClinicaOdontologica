@@ -16,7 +16,7 @@ public class Turno {
     @ManyToOne
     @JoinColumn(name = "PACIENTES_ID")
     private Paciente paciente;
-    @Column(name = "TURNOS_FECHA", nullable = false)
+
     private LocalDateTime fechaYHora;
 
     public Turno(){}

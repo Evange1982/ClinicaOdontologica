@@ -1,5 +1,6 @@
 package com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.turno;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.validation.constraints.FutureOrPresent;
@@ -15,9 +16,9 @@ public class TurnoEntradaDto {
     @NotNull(message = "El odontologo no existe")
     private Long odontologoId;
 
-    //@JsonFormat( shape= "")
-    @FutureOrPresent(message = "La fecha no puede ser anterior a dia de hoy")
-    @NotNull(message = "Debe especificar la fecha y la hora")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+    @FutureOrPresent(message = "La fecha no puede ser anterior al día de hoy")
+    @NotNull(message = "Debe especificarse la fecha y hora del turno")
     private LocalDateTime fechaYHora;
 
     public TurnoEntradaDto(){}

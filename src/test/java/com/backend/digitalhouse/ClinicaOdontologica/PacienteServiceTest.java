@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,6 +34,7 @@ class PacienteServiceTest {
 
 		assertEquals("Juan", pacienteSalidaDto.getNombre());
 		assertEquals(1, pacienteSalidaDto.getId());
+		LocalDateTime.now();
 	}
 
 	@Test

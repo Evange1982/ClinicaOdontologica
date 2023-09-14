@@ -35,14 +35,10 @@ public class TurnoService implements ITurnoService {
         this.pacienteService = pacienteService;
     }
 
-    @Override
-    public List<TurnoSalidaDto> listarTurnos() {
-        return null;
-    }
 
     @Override
     public TurnoSalidaDto registrarTurno(TurnoEntradaDto turnoEntradaDto) throws BadRequestException {
-        TurnoSalidaDto turnoSalidaDto = null;
+        TurnoSalidaDto turnoSalidaDto;
 
         PacienteSalidaDto paciente = pacienteService.buscarPacientePorId(turnoEntradaDto.getPacienteId());
         OdontologoSalidaDto odontologo = odontologoService.buscarOdontologoPorId(turnoEntradaDto.getOdontologoId());
@@ -62,8 +58,10 @@ public class TurnoService implements ITurnoService {
                 throw new BadRequestException(odontologoNoEnBdd);
             }
         } else {
+
             Turno turnoNuevo = turnoRepository.save(modelMapper.map(turnoEntradaDto, Turno.class));
             turnoSalidaDto = entidadADto(turnoNuevo);
+
             LOGGER.info("Nuevo turno registrado con exito: {}", turnoSalidaDto);
         }
 
@@ -71,8 +69,27 @@ public class TurnoService implements ITurnoService {
     }
 
     @Override
+    public List<TurnoSalidaDto> listarTurnos() {
+        List<TurnoSalidaDto> turnos = turnoRepository.findAll().stream()
+                .map(this::entidadADto).toList();
+
+        LOGGER.info("Listado de todos los turnos: {}", turnos);
+
+        return turnos;
+    }
+
+
+    @Override
     public TurnoSalidaDto buscarTurnoPorId(Long id) {
-        return null;
+        Turno turnoBuscado = turnoRepository.findById(id).orElse(null);
+
+        TurnoSalidaDto turnoSalidaDto = null;
+        if (turnoBuscado != null) {
+            turnoSalidaDto = entidadADto(turnoBuscado);
+            LOGGER.info("Turno encontrado: {}", turnoSalidaDto);
+        } else LOGGER.error("El id no se encuentra registrado en la base de datos");
+
+        return turnoSalidaDto;
     }
 
     @Override

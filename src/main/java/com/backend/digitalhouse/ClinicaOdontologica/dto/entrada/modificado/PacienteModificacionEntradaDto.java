@@ -1,35 +1,45 @@
 package com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.modificado;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PacienteModificacionEntradaDto {
 
-    @NotNull
+    @NotNull(message = "Debe proveerse el id del paciente que se desea modificar")
     private Long id;
 
-    @NotNull
+    @Size(min = 2, max = 50, message = "El nombre debe tener hasta 50 caracteres")
+    @NotNull(message = "El nombre del paciente no puede ser nulo")
+    @NotBlank(message = "Debe especificarse el nombre del paciente")
     private String nombre;
 
-    @NotNull
+    @Size(max = 50, message = "El apellido debe tener hasta 50 caracteres")
+    @NotNull(message = "El apellido del paciente no puede ser nulo")
+    @NotBlank(message = "Debe especificarse el apellido del paciente")
     private String apellido;
 
-    @NotNull
+    @NotNull(message = "Debe especificarse el dni del paciente")
+    @Digits(integer = 8, fraction = 0, message = "El número debe tener como máximo 8 dígitos")
     private String dni;
 
-    @NotNull
-    private LocalDateTime fechaIngreso;
+    @FutureOrPresent(message = "La fecha no puede ser anterior al día de hoy")
+    @NotNull(message = "Debe especificarse la fecha de ingreso del paciente")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate fechaIngreso;
 
-    @NotNull
+    @NotNull(message = "El domicilio del paciente no puede ser nulo")
+    @Valid
     private DomicilioModificacionEntradaDto domicilio;
 
     public PacienteModificacionEntradaDto() {
     }
 
-    public PacienteModificacionEntradaDto(Long id, String nombre, String apellido, String dni, LocalDateTime fechaIngreso, DomicilioModificacionEntradaDto domicilio) {
+    public PacienteModificacionEntradaDto(Long id, String nombre, String apellido, String dni, LocalDate fechaIngreso, DomicilioModificacionEntradaDto domicilio) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -38,7 +48,7 @@ public class PacienteModificacionEntradaDto {
         this.domicilio = domicilio;
     }
 
-    public PacienteModificacionEntradaDto(String nombre, String apellido, String dni, LocalDateTime fechaIngreso, DomicilioModificacionEntradaDto domicilio) {
+    public PacienteModificacionEntradaDto(String nombre, String apellido, String dni, LocalDate fechaIngreso, DomicilioModificacionEntradaDto domicilio) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
@@ -78,11 +88,11 @@ public class PacienteModificacionEntradaDto {
         this.dni = dni;
     }
 
-    public LocalDateTime getFechaIngreso() {
+    public LocalDate getFechaIngreso() {
         return fechaIngreso;
     }
 
-    public void setFechaIngreso(LocalDateTime fechaIngreso) {
+    public void setFechaIngreso(LocalDate fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 

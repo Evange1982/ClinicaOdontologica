@@ -21,7 +21,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/odontologos")
 public class OdontologoController {
 
@@ -43,6 +42,7 @@ public class OdontologoController {
             @ApiResponse(responseCode = "500", description = "Server error",
                     content = @Content)
     })
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("/registrar")
     public ResponseEntity<OdontologoSalidaDto> registrarOdontologo(@Valid @RequestBody OdontologoEntradaDto odontologoEntrada) throws BadRequestException {
         return new ResponseEntity<>(odontologoService.registrarOdontologo(odontologoEntrada), HttpStatus.CREATED);
@@ -98,7 +98,6 @@ public class OdontologoController {
     @DeleteMapping("/eliminar/{id}")
     public void eliminarOdontologo(@PathVariable Long id) throws ResourceNotFoundException {odontologoService.eliminarOdontologo(id);
     }
-
     @GetMapping("/")
     public List<OdontologoSalidaDto> listarOdontologo(){
         return odontologoService.listarOdontologos();

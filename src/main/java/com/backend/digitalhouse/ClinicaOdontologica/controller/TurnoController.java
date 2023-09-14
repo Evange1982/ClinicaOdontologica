@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/turnos")
 public class TurnoController {
     private ITurnoService turnoService;
@@ -46,6 +47,7 @@ public class TurnoController {
     }
 
     //PUT
+    @CrossOrigin(origins = "*")
     @Operation(summary = "Actualización de un Turno")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Turno actualizado correctamente",

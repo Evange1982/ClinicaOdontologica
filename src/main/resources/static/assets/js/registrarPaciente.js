@@ -1,4 +1,4 @@
-import { URL_BASE, mostrarMensaje, enviarDatos } from "./utils/funciones.js";
+import { URL_BASE, mostrarMensaje, enviarDatosPost } from "./utils/funciones.js";
 
 (function() {
     "use strict";
@@ -22,19 +22,15 @@ import { URL_BASE, mostrarMensaje, enviarDatos } from "./utils/funciones.js";
                 } 
             }
 
-            const url = url_base + '/pacientes/registrar';
+            const url = URL_BASE + '/pacientes/registrar';
             console.log(data);
             try {
-                const response = await enviarDatos(url, 'POST', data);
-                //console.log(response);
-                let mensaje = ' Se agrego el Odontologo \n'+data.nombre+' '+data.apellido;
-                mostrarMensaje('success', mensaje);
+                const response = await enviarDatosPost(url, data);
+                mostrarMensaje({icon: 'success',title: 'OK',text : 'alta de Paciente satisfactorio'});
             } catch (error) {
                 const mensajeFinal = error.message;
                 mostrarMensaje('error', mensajeFinal);
-            }
-
-            console.log(data);  
+            } 
         });
     });
 })();

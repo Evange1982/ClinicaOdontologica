@@ -1,4 +1,4 @@
-import { URL_BASE, mostrarMensaje, enviarDatosGet, enviarDatosPost } from "./utils/funciones.js";
+import { URL_BASE, mostrarMensaje, enviarDatosGet, actualizardatos, eliminarRegistro} from "./utils/funciones.js";
 
 (function() {
     "use strict";
@@ -20,11 +20,11 @@ import { URL_BASE, mostrarMensaje, enviarDatosGet, enviarDatosPost } from "./uti
                 <td>${odontologo.nombre}</td>
                 <td>${odontologo.apellido}</td>
                 <td>
-                    <button type="button" class="btn btn-warning editar" data-index="${odontologo.id}" data-bs-toggle="modal" data-bs-target="#${"modalEdicionItem"+numeroItem}">
+                    <button type="button" class="btn btn-warning" id="editar${numeroItem}" data-index="${odontologo.id}" data-bs-toggle="modal" data-bs-target="#${"modalEdicionItem"+numeroItem}">
                         <i class="bi bi-pencil-square"></i>
                     </button>
                     <div class="modal fade" id="${"modalEdicionItem"+numeroItem}" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title"> Modificar Odontologo</h5>
@@ -63,7 +63,7 @@ import { URL_BASE, mostrarMensaje, enviarDatosGet, enviarDatosPost } from "./uti
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger eliminar" data-index="${odontologo.id}">
+                    <button type="button" class="btn btn-danger" id="eliminar${numeroItem}" data-index="${odontologo.id}">
                         <i class="bi bi-pencil-square"></i>
                     </button>
                 </td>
@@ -71,78 +71,81 @@ import { URL_BASE, mostrarMensaje, enviarDatosGet, enviarDatosPost } from "./uti
                 numeroItem++;
             });
 
+            // const btnEditar = document.querySelector(`#editar${numeroItem}`);
+            //     const btnEliminar = document.querySelector(`#eliminar${numeroItem}`);
+
+            //     btnEditar.addEventListener("click", async () =>{
+            //         console.log("Hola mundo");
+            //     });
+
             if (listaOdontologos.length >0){
                 tabla.innerHTML = contenidoTabla;
 
-                // Agregar eventos a los botones (solo si la tabla no está vacía)
-                const editarBotones = document.querySelectorAll(".editar");
-                const eliminarBotones = document.querySelectorAll(".eliminar");
+                listaOdontologos.forEach((odontologo, index) => {
+                    const btnEditar = document.querySelector(`#editar${index + 1}`);
+                    const btnEliminar = document.querySelector(`#eliminar${index + 1}`);
+                    const btnGuardarCambios = document.querySelector(`#guardarCambios${index + 1}`);
 
-                editarBotones.forEach((editarBtn , index)=> {
-                    editarBtn.addEventListener("click", async () => {
-                        const odontologoId = editarBtn.getAttribute('data-index');
+                    const id = btnEditar.getAttribute('data-index');
+                    
+                    btnEditar.addEventListener("click", async () => {
+                        // id = btnEditar.getAttribute('data-index');
+                        console.log(id);
                         try{
-                            const url = URL_BASE + '/odontologos/'+odontologoId;
+                            const url = URL_BASE + '/odontologos/'+id;
                             const odontologoData = await enviarDatosGet(url);
                             const modal = document.getElementById(`modalEdicionItem${index+1}`);
                             modal.querySelector(`#matricula${index+1}`).value = odontologoData.matricula;
                             modal.querySelector(`#nombre${index+1}`).value = odontologoData.nombre;
                             modal.querySelector(`#apellido${index+1}`).value = odontologoData.apellido;
-                            // console.log(response);
                         }catch(error){
                             console.log(error.message);
                         }
-                        if (index !== null) {
-                            // Implementa la lógica para editar aquí usando listaOdontologos[index]
-                            console.log(`Editar odontólogo número ${parseInt(index)}`);
-                        }
                     });
-                });
-                
-                // Agregar un evento de clic a los botones de "Guardar Cambios"
-                const btnGuardarCambios = document.querySelectorAll('.guardarCambios*');
-                console.log("boton guardar cambios "+btnGuardarCambios);
-                btnGuardarCambios.forEach((guardarCambiosBtn, index) => {
-                    guardarCambiosBtn.addEventListener('click', async () => {
-                        // Obtener el índice del odontólogo desde el atributo data-index
-                        const odontologoId = guardarCambiosBtn.getAttribute('data-index');
 
-                        // Obtener los valores de los campos del modal
-                        const matricula = document.getElementById(`matriculaEditar${index+1}`).value;
-                        const nombre = document.getElementById(`nombreEditar${index+1}`).value;
-                        const apellido = document.getElementById(`apellidoEditar${index+1}`).value;
-                    
+                    btnGuardarCambios.addEventListener('click', async () => {
+                        const matricula = document.getElementById(`matricula${index+1}`).value;
+                        const nombre = document.getElementById(`nombre${index+1}`).value;
+                        const apellido = document.getElementById(`apellido${index+1}`).value;
+
                         // Crear un objeto con los datos a enviar
-                        const data = {
-                            matricula,
-                            nombre,
-                            apellido
+                        const odontologoModificado = {
+                            id : parseInt(id),
+                            matricula: matricula,
+                            nombre : nombre,
+                            apellido: apellido
                         };
+                        console.log(id);
+                        console.log(odontologoModificado);
 
-                        console.log(data);
-                        // Realizar la solicitud POST
-                        try {
-                            url = URL_BASE+'/actualizar'
-                            const respuesta = enviarDatosPost(url, data);
+                        try{
+                            const urlArtualizar = URL_BASE+'/odontologos/actualizar';
+                            const respuesta = await actualizardatos(urlArtualizar, odontologoModificado);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Cambios guardados con éxito',
+                                text: 'Los cambios se han guardado correctamente.',
+                            }).then(() => {
+                                // Refrescar la página
+                                location.reload();
+                            });
                             
-                            console.log(respuesta);
-                            // Cerrar el modal después de guardar los cambios
-                            const modal = new bootstrap.Modal(document.getElementById(`modalEdicionItem${index}`));
-                            modal.hide();
-
-                            // Puedes realizar alguna acción adicional aquí después de guardar los cambios
-                        } catch (error) {
-                            console.error(error);
+                        }catch(error){
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error al guardar los cambios',
+                                text: 'Hubo un problema al intentar guardar los cambios.',
+                            }).then(() => {
+                                // Refrescar la página
+                                location.reload();
+                            });
                         }
+
                     });
-                });
 
-
-
-                eliminarBotones.forEach(boton => {
-                    boton.addEventListener("click", () => {
-                        const index = boton.getAttribute("data-index");
-                        if (index !== null) {
+                    btnEliminar.addEventListener("click", async () => {
+                        console.log(id);
+                        if (id !== null) {
                             const swalWithBootstrapButtons = Swal.mixin({
                                 customClass: {
                                   confirmButton: 'btn btn-success',
@@ -159,13 +162,31 @@ import { URL_BASE, mostrarMensaje, enviarDatosGet, enviarDatosPost } from "./uti
                                 confirmButtonText: 'Si, Eliminar!',
                                 cancelButtonText: 'No, Cancelar!',
                                 reverseButtons: true
-                              }).then((result) => {
+                              }).then( async (result) => {
                                 if (result.isConfirmed) {
-                                  swalWithBootstrapButtons.fire(
-                                    'Eliminado!',
-                                    'El odontologo a sido eliminado.',
-                                    'success'
-                                  )
+                                    try{
+                                        const urlDelete = URL_BASE+'/odontologos/eliminar/'+id;
+                                        
+                                        const estaEliminado = await eliminarRegistro(urlDelete);
+                                        
+                                        swalWithBootstrapButtons.fire(
+                                            'Eliminado!',
+                                            'El odontologo a sido eliminado.',
+                                            'success'
+                                        ).then(() => {
+                                            // Refrescar la página
+                                            location.reload();
+                                        });
+
+                                    }catch(error){
+                                        swalWithBootstrapButtons.fire(
+                                            'Cancelado',
+                                            'error'
+                                          ).then(() => {
+                                            // Refrescar la página
+                                            location.reload();
+                                        });
+                                    }
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                                   swalWithBootstrapButtons.fire(
                                     'Cancelado',
@@ -174,9 +195,9 @@ import { URL_BASE, mostrarMensaje, enviarDatosGet, enviarDatosPost } from "./uti
                                   )
                                 }
                               })
-                            console.log(`Eliminar odontólogo número ${parseInt(index)}`);
                         }
                     });
+                    
                 });
 
             }else{

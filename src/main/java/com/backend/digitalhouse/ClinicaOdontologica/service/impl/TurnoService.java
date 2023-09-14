@@ -40,9 +40,10 @@ public class TurnoService implements ITurnoService {
         this.pacienteService = pacienteService;
     }
 
+
     @Override
     public TurnoSalidaDto registrarTurno(TurnoEntradaDto turnoEntradaDto) throws BadRequestException {
-        TurnoSalidaDto turnoSalidaDto = null;
+        TurnoSalidaDto turnoSalidaDto;
 
         PacienteSalidaDto paciente = pacienteService.buscarPacientePorId(turnoEntradaDto.getPacienteId());
         OdontologoSalidaDto odontologo = odontologoService.buscarOdontologoPorId(turnoEntradaDto.getOdontologoId());
@@ -62,8 +63,10 @@ public class TurnoService implements ITurnoService {
                 throw new BadRequestException(odontologoNoEnBdd);
             }
         } else {
+
             Turno turnoNuevo = turnoRepository.save(modelMapper.map(turnoEntradaDto, Turno.class));
             turnoSalidaDto = entidadADto(turnoNuevo);
+
             LOGGER.info("Nuevo turno registrado con exito: {}", turnoSalidaDto);
         }
 

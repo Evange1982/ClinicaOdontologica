@@ -184,6 +184,61 @@ import { URL_BASE, mostrarMensaje, enviarDatosGet, actualizardatos, eliminarRegi
                         }
 
                     });
+
+                    btnEliminar.addEventListener("click", async () => {
+                        console.log(id);
+                        if (id !== null) {
+                            const swalWithBootstrapButtons = Swal.mixin({
+                                customClass: {
+                                  confirmButton: 'btn btn-success',
+                                  cancelButton: 'btn btn-danger'
+                                },
+                                buttonsStyling: false
+                              })
+                              
+                              swalWithBootstrapButtons.fire({
+                                title: 'Estas seguro que desea eliminar este odontologo?',
+                                text: "Esta accion no se puede revertir!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonText: 'Si, Eliminar!',
+                                cancelButtonText: 'No, Cancelar!',
+                                reverseButtons: true
+                              }).then( async (result) => {
+                                if (result.isConfirmed) {
+                                    try{
+                                        const urlDelete = URL_BASE+'/pacientes/eliminar/'+id;
+                                        
+                                        const estaEliminado = await eliminarRegistro(urlDelete);
+                                        
+                                        swalWithBootstrapButtons.fire(
+                                            'Eliminado!',
+                                            'El odontologo a sido eliminado.',
+                                            'success'
+                                        ).then(() => {
+                                            // Refrescar la página
+                                            location.reload();
+                                        });
+
+                                    }catch(error){
+                                        swalWithBootstrapButtons.fire(
+                                            'Cancelado',
+                                            'error'
+                                          ).then(() => {
+                                            // Refrescar la página
+                                            location.reload();
+                                        });
+                                    }
+                                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                  swalWithBootstrapButtons.fire(
+                                    'Cancelado',
+                                    'Se aborto la eliminación',
+                                    'error'
+                                  )
+                                }
+                              })
+                        }
+                    });
                 });
 
 

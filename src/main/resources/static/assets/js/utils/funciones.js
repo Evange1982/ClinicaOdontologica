@@ -81,7 +81,7 @@ export async function eliminarRegistro(url) {
 
     const data = response;
     
-    if (response.status != 200) {
+    if (response.status > 300) {
         let mensaje = "";
         if (data !== undefined && data !== null) {
             if(response.status < 500){

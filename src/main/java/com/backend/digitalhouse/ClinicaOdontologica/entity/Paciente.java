@@ -24,7 +24,6 @@ public class Paciente {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "DOMICILIOS_ID")
     private Domicilio domicilio;
-
     public Paciente(){
     }
 

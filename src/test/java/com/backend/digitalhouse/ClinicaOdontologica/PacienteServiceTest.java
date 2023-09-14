@@ -42,6 +42,7 @@ class PacienteServiceTest {
 	}
 
 	@Test
+	@Order(4)
 	void alIntentarActualizarElPacienteId2_deberiaLanzarseUnaResourceNotFoundException(){
 		PacienteModificacionEntradaDto pacienteModificacionEntradaDto = new PacienteModificacionEntradaDto();
 		pacienteModificacionEntradaDto.setId(2L);

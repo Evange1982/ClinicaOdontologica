@@ -8,6 +8,7 @@ import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.odontologo.Odonto
 import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.paciente.PacienteSalidaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.turno.TurnoSalidaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.exceptions.BadRequestException;
+import com.backend.digitalhouse.ClinicaOdontologica.exceptions.ResourceNotFoundException;
 import com.backend.digitalhouse.ClinicaOdontologica.service.impl.OdontologoService;
 import com.backend.digitalhouse.ClinicaOdontologica.service.impl.PacienteService;
 import com.backend.digitalhouse.ClinicaOdontologica.service.impl.TurnoService;
@@ -50,13 +51,20 @@ public class TurnoServiceTest {
 
     }
 
+    @Test
+    void buscarTurnoExistentePorId() {
+        Long idExistente = 1L;
+        TurnoSalidaDto turnoSalidaDto = turnoService.buscarTurnoPorId(idExistente);
+        assertNotNull(turnoSalidaDto);
+    }
+
+    @Test
+    void alEliminarTurnoPorId_deberiaLanzarseUnResourceNotFoundException(){
+        Long turnoId = 1L;
+        assertThrows(ResourceNotFoundException.class, () -> turnoService.eliminarTurnoId(1L));
+
+    }
 
 
+}
 
-
-
-
-
-
-
-        }

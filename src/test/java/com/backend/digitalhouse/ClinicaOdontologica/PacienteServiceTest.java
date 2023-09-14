@@ -40,6 +40,7 @@ class PacienteServiceTest {
 	@Test
 	@Order(2)
 	void deberiaRetornarseUnaListaNoVaciaDePacientes(){
+
 		assertTrue(pacienteService.listarPacientes().size() > 0);
 	}
 

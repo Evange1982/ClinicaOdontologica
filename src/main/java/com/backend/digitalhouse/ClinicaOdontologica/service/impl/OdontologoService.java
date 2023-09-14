@@ -6,6 +6,7 @@ import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.odontologo.Odont
 import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.odontologo.OdontologoSalidaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.entity.Domicilio;
 import com.backend.digitalhouse.ClinicaOdontologica.entity.Odontologo;
+import com.backend.digitalhouse.ClinicaOdontologica.exceptions.BadRequestException;
 import com.backend.digitalhouse.ClinicaOdontologica.exceptions.ResourceNotFoundException;
 import com.backend.digitalhouse.ClinicaOdontologica.repository.OdontologoRepository;
 import com.backend.digitalhouse.ClinicaOdontologica.service.IOdontologoService;
@@ -36,10 +37,19 @@ public class OdontologoService implements IOdontologoService {
     }
 
     @Override
-    public OdontologoSalidaDto registrarOdontologo(OdontologoEntradaDto odontologo) {
-        Odontologo odontologoEntity = odontologoRepository.save(dtoToEntity(odontologo));
-        OdontologoSalidaDto odontologoSalidaDto = entityToDto(odontologoEntity);
-        LOGGER.info("Odontologo guardado: {}", odontologoSalidaDto);
+    public OdontologoSalidaDto registrarOdontologo(OdontologoEntradaDto odontologo) throws BadRequestException {
+        List<Odontologo> odontologoEnBd = odontologoRepository.buscarOdontologoPorMatricula(odontologo.getMatricula());
+        OdontologoSalidaDto odontologoSalidaDto= null;
+
+        if(odontologoEnBd.size() > 0){
+            LOGGER.warn("Ya se encuentra registrado el Odontologo: {}", odontologo);
+            throw new BadRequestException("Ya se encuentra registrado el Odontologo");
+        }else{
+            Odontologo odontologoEntity = odontologoRepository.save(dtoToEntity(odontologo));
+            odontologoSalidaDto = entityToDto(odontologoEntity);
+            LOGGER.info("Odontologo guardado: {}", odontologoSalidaDto);
+        }
+
         return odontologoSalidaDto;
     }
 
@@ -95,8 +105,8 @@ public class OdontologoService implements IOdontologoService {
         return modelMapper.map(odontologoSalida, OdontologoSalidaDto.class);
     }
 
-    private Domicilio odontologoModificadoEntradaDtoToEntity(DomicilioModificacionEntradaDto domicilioModificado){
-        return modelMapper.map(domicilioModificado, Domicilio.class);
+    private Odontologo odontologoModificadoEntradaDtoToEntity(OdontologoModificacionEntradaDto OdontologoModificado){
+        return modelMapper.map(OdontologoModificado, Odontologo.class);
     }
 
 }

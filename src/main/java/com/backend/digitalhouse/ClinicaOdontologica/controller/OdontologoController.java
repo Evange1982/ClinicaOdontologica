@@ -4,6 +4,7 @@ package com.backend.digitalhouse.ClinicaOdontologica.controller;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.modificado.OdontologoModificacionEntradaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.odontologo.OdontologoEntradaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.odontologo.OdontologoSalidaDto;
+import com.backend.digitalhouse.ClinicaOdontologica.exceptions.BadRequestException;
 import com.backend.digitalhouse.ClinicaOdontologica.exceptions.ResourceNotFoundException;
 import com.backend.digitalhouse.ClinicaOdontologica.service.IOdontologoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,7 +44,7 @@ public class OdontologoController {
                     content = @Content)
     })
     @PostMapping("/registrar")
-    public ResponseEntity<OdontologoSalidaDto> registrarOdontologo(@Valid @RequestBody OdontologoEntradaDto odontologoEntrada) {
+    public ResponseEntity<OdontologoSalidaDto> registrarOdontologo(@Valid @RequestBody OdontologoEntradaDto odontologoEntrada) throws BadRequestException {
         return new ResponseEntity<>(odontologoService.registrarOdontologo(odontologoEntrada), HttpStatus.CREATED);
     }
 

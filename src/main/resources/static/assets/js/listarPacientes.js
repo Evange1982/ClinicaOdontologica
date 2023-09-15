@@ -111,24 +111,26 @@ import { URL_BASE, mostrarMensaje, enviarDatosGet, actualizardatos, eliminarRegi
                     const btnEditar = document.querySelector(`#editar${index + 1}`);
                     const btnEliminar = document.querySelector(`#eliminar${index + 1}`);
                     const btnGuardarCambios = document.querySelector(`#guardarCambios${index + 1}`);
-
+                    let pacienteDataBd = {}
                     const id = btnEditar.getAttribute('data-index');
 
                     btnEditar.addEventListener("click", async () => {
-                        // id = btnEditar.getAttribute('data-index');
-                        console.log(id);
                         try{
+                            
                             const url = URL_BASE + '/pacientes/'+id;
-                            const pacienteData = await enviarDatosGet(url);
+                            pacienteDataBd = await enviarDatosGet(url);
+                            console.log(pacienteDataBd);
+                            
                             const modal = document.getElementById(`modalEdicionItem${index+1}`);
-                            modal.querySelector(`#nombre${index+1}`).value = pacienteData.nombre;
-                            modal.querySelector(`#apellido${index+1}`).value = pacienteData.apellido;
-                            modal.querySelector(`#dni${index+1}`).value = pacienteData.dni;
-                            modal.querySelector(`#fechaIngreso${index+1}`).value = pacienteData.fechaIngreso;
-                            modal.querySelector(`#calle${index+1}`).value = pacienteData.domicilio.calle;
-                            modal.querySelector(`#numero${index+1}`).value = pacienteData.domicilio.numero;
-                            modal.querySelector(`#localidad${index+1}`).value = pacienteData.domicilio.localidad;
-                            modal.querySelector(`#provincia${index+1}`).value = pacienteData.domicilio.provincia;
+                            modal.querySelector(`#nombre${index+1}`).value = pacienteDataBd.nombre;
+                            modal.querySelector(`#apellido${index+1}`).value = pacienteDataBd.apellido;
+                            modal.querySelector(`#dni${index+1}`).value = pacienteDataBd.dni;
+                            modal.querySelector(`#fechaIngreso${index+1}`).value = pacienteDataBd.fechaIngreso;
+                            modal.querySelector(`#calle${index+1}`).value = pacienteDataBd.domicilio.calle;
+                            modal.querySelector(`#numero${index+1}`).value = pacienteDataBd.domicilio.numero;
+                            modal.querySelector(`#localidad${index+1}`).value = pacienteDataBd.domicilio.localidad;
+                            modal.querySelector(`#provincia${index+1}`).value = pacienteDataBd.domicilio.provincia;
+                        
                         }catch(error){
                             console.log(error.message);
                         }
@@ -147,22 +149,25 @@ import { URL_BASE, mostrarMensaje, enviarDatosGet, actualizardatos, eliminarRegi
 
                         // Crear un objeto con los datos a enviar
                         const PacienteModificado = {
-                            id : parseInt(id),
-                            nombre : nombre,
-                            apellido: apellido,
-                            dni: dni,
-                            fechaIngreso: fechaIngreso,
-                            calle: calle,
-                            numero: numero,
-                            localidad: localidad,
-                            provincia: provincia
+                            id : pacienteDataBd.id,
+                            nombre : pacienteDataBd.nombre,
+                            apellido: pacienteDataBd.apellido,
+                            dni: pacienteDataBd.dni,
+                            fechaIngreso: pacienteDataBd.fechaIngreso,
+                            domicilio:{
+                                id: pacienteDataBd.domicilio.id,
+                                calle: pacienteDataBd.domicilio.calle,
+                                numero: pacienteDataBd.domicilio.numero,
+                                localidad: pacienteDataBd.domicilio.localidad,
+                                provincia: pacienteDataBd.domicilio.provincia
+                            }
                         };
                         console.log(id);
                         console.log(PacienteModificado);
 
                         try{
                             const urlArtualizar = URL_BASE+'/pacientes/actualizar';
-                            const respuesta = await actualizardatos(urlArtualizar, PacienteModificado);
+                            const respuesta = await actualizardatos(urlArtualizar, pacienteDataBd);
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Cambios guardados con éxito',

@@ -3,7 +3,6 @@ package com.backend.digitalhouse.ClinicaOdontologica.service.impl;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.entrada.modificado.PacienteModificacionEntradaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.dto.salida.paciente.PacienteSalidaDto;
 import com.backend.digitalhouse.ClinicaOdontologica.entity.Paciente;
-import com.backend.digitalhouse.ClinicaOdontologica.exceptions.BadRequestException;
 import com.backend.digitalhouse.ClinicaOdontologica.exceptions.ResourceNotFoundException;
 import com.backend.digitalhouse.ClinicaOdontologica.repository.PacienteRepository;
 import com.backend.digitalhouse.ClinicaOdontologica.service.IPacienteService;
@@ -33,9 +32,6 @@ public class PacienteService implements IPacienteService {
         PacienteSalidaDto pacienteSalidaDto = entidadADtoSalida(pacGuardado);
         LOGGER.info("Paciente guardado: {}", pacienteSalidaDto);
         return pacienteSalidaDto;
-        //Paciente pacienteRecibido = dtoEntradaAEntidad(paciente);
-        //Paciente pacienteRegistrado = pacienteRepository.save(pacienteRecibido);
-        //return entidadADtoSalida(pacienteRegistrado);
     }
 
     @Override

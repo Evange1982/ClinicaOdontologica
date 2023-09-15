@@ -48,14 +48,6 @@ public class PacienteModificacionEntradaDto {
         this.domicilio = domicilio;
     }
 
-    public PacienteModificacionEntradaDto(String nombre, String apellido, String dni, LocalDate fechaIngreso, DomicilioModificacionEntradaDto domicilio) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.dni = dni;
-        this.fechaIngreso = fechaIngreso;
-        this.domicilio = domicilio;
-    }
-
     public Long getId() {
         return id;
     }

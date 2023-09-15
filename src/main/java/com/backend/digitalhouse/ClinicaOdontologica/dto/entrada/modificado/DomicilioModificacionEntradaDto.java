@@ -38,13 +38,6 @@ public class DomicilioModificacionEntradaDto {
         this.provincia = provincia;
     }
 
-    public DomicilioModificacionEntradaDto(String calle, int numero, String localidad, String provincia) {
-        this.calle = calle;
-        this.numero = numero;
-        this.localidad = localidad;
-        this.provincia = provincia;
-    }
-
     public Long getId() {
         return id;
     }

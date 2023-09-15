@@ -27,17 +27,15 @@ export async function enviarDatosPost(url, datos) {
         
     const data = await response.json();
     
-    if (response.status != 201) {
+    if (response.status > 300) {
         let mensaje = "";
-        if (data !== undefined && data !== null) {
-            if(response.status < 500){
-                mensaje = Object.values(data).join(',\n');
-            }else{
-                mensaje = 'Error interno';
-            }
-        } else {
+        
+        if(response.status < 500){
+            mensaje = Object.values(data).join(',\n');
+        }else{
             mensaje = 'Error interno';
-        }           
+        }
+                  
         throw new Error(mensaje);
     }
 
@@ -55,17 +53,15 @@ export async function actualizardatos(url, datos) {
 
     const data = await response.json();
 
-    if (response.status != 200) {
+    if (response.status > 300) {
         let mensaje = "";
-        if (data !== undefined && data !== null) {
-            if(response.status < 500){
-                mensaje = Object.values(data).join(',\n');
-            }else{
-                mensaje = 'Error interno';
-            }
-        } else {
+        
+        if(response.status < 500){
+            mensaje = Object.values(data).join(',\n');
+        }else{
             mensaje = 'Error interno';
-        }           
+        }
+        
         throw new Error(mensaje);
     }
     return data;
@@ -81,7 +77,7 @@ export async function eliminarRegistro(url) {
 
     const data = response;
     
-    if (response.status > 300) {
+    if (response.status > 200) {
         let mensaje = "";
         if (data !== undefined && data !== null) {
             if(response.status < 500){

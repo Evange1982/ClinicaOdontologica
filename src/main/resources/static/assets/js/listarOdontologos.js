@@ -71,13 +71,6 @@ import { URL_BASE, mostrarMensaje, enviarDatosGet, actualizardatos, eliminarRegi
                 numeroItem++;
             });
 
-            // const btnEditar = document.querySelector(`#editar${numeroItem}`);
-            //     const btnEliminar = document.querySelector(`#eliminar${numeroItem}`);
-
-            //     btnEditar.addEventListener("click", async () =>{
-            //         console.log("Hola mundo");
-            //     });
-
             if (listaOdontologos.length >0){
                 tabla.innerHTML = contenidoTabla;
 

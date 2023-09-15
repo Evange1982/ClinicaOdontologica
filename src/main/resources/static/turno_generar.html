@@ -143,35 +143,33 @@
             <div class="card-body">
               <h5 class="card-title">Reservar Turno</h5>
               <!-- General Form Elements -->
-              <form>
+              <form id="formularioturno">
                 <div class="row mb-3">
                   <label class="col-sm-2 col-form-label">Odontologo</label>
                   <div class="col-sm-10">
-                    <select class="form-select" aria-label="Default select example" id="selectOdontologo">
+                    <select class="form-select" aria-label="Default select example" id="selectOdontologo" required>
                       <option selected>Seleccionar Odontologo</option>
-                      
                     </select>
                   </div>
                 </div>
                 <div class="row mb-3">
                   <label class="col-sm-2 col-form-label">Paciente</label>
                   <div class="col-sm-10">
-                    <select class="form-select" aria-label="Default select example" id="selectPaciente">
+                    <select class="form-select" aria-label="Default select example" id="selectPaciente" required>
                       <option selected>Seleccionar un Paciente</option>
-                      
                     </select>
                   </div>
                 </div>
                 <div class="row mb-3">
                   <label for="inputDate" class="col-sm-2 col-form-label">Date</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control">
+                    <input type="date" class="form-control" id="inputDate" required>
                   </div>
                 </div>
                 <div class="row mb-3">
                   <label for="inputTime" class="col-sm-2 col-form-label">Time</label>
                   <div class="col-sm-10">
-                    <input type="time" class="form-control">
+                    <input type="time" class="form-control" id="inputTime" required>
                   </div>
                 </div>
                 <div class="row mb-3">
@@ -191,16 +189,6 @@
   </section>
 
   </main><!-- End #main -->
-
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
-  </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
